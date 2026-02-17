@@ -9,8 +9,6 @@ export const uploadNoteFile = async (formData) => {
         const response = await api.post('/notes/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                // Authorization header is usually added by interceptors or manually if needed
-                // If using the 'protect' middleware, ensure token is present
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         });
