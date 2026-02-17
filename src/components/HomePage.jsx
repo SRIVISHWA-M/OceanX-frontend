@@ -49,7 +49,7 @@ function HomePage() {
     icon: note.type === 'pdf' ? '📕' : note.type === 'word' ? '📘' : note.type === 'handwritten' ? '🖼️' : '📝',
     uploadedBy: note.user?.name || 'You',
     content: note.content,
-    fileUrl: note.fileUrl ? `http://localhost:5000${note.fileUrl}` : null,
+    fileUrl: note.fileUrl ? `https://oceanx-backend.vercel.app${note.fileUrl}` : null,
     chapterName: note.chapterName,
     subject: note.subject
   });
