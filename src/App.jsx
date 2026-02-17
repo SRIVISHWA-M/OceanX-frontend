@@ -47,7 +47,7 @@ function App() {
           element={<ProtectedRoute><HomePage /></ProtectedRoute>} 
         />
         <Route path="/" element={<Navigate to="/upload" replace />} />
-        {/* Fallback to upload (which will redirect to login if not auth) */}
+        
         <Route path="*" element={<Navigate to="/upload" replace />} />
       </Routes>
     </BrowserRouter>
