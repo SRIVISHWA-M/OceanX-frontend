@@ -1,114 +1,155 @@
 import React from 'react';
 
+const typeConfig = {
+  pdf:         { bg: 'bg-rose-50',    text: 'text-rose-600',    border: 'border-rose-100',    label: 'PDF' },
+  word:        { bg: 'bg-blue-50',    text: 'text-blue-600',    border: 'border-blue-100',    label: 'Word' },
+  handwritten: { bg: 'bg-amber-50',   text: 'text-amber-600',   border: 'border-amber-100',   label: 'Image' },
+  text:        { bg: 'bg-emerald-50', text: 'text-emerald-600', border: 'border-emerald-100', label: 'Text' },
+};
+
+const typeIcons = {
+  pdf: '📕',
+  word: '📘',
+  handwritten: '🖼️',
+  text: '📝',
+};
+
 function SearchResultsView({ materials, searchQuery, onSelectMaterial, onClearSearch, isCollectionsView, onToggleCollection, collectionIds = [], onDelete, currentUserId }) {
   const displayMaterials = materials || [];
 
   return (
-    <div className="w-full h-full flex flex-col animate-in fade-in slide-in-from-bottom-8 duration-500">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 md:mb-8">
+    <div className="w-full h-full flex flex-col animate-slide-up">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-5 shrink-0">
         <div>
-          <h2 className="text-2xl md:text-3xl font-black text-slate-900 font-display tracking-tight">
-            {isCollectionsView ? 'My Collection' : 'Search Results'}
+          <h2 className="text-xl md:text-2xl font-black text-slate-800 font-display">
+            {isCollectionsView ? '📁 My Collection' : '🔍 Search Results'}
           </h2>
-          <p className="text-base md:text-lg font-bold text-slate-400">
-            {isCollectionsView ? `You have ${displayMaterials.length} saved items` : `Found ${displayMaterials.length} items`}
+          <p className="text-sm text-slate-400 font-medium mt-0.5">
+            {isCollectionsView
+              ? `${displayMaterials.length} saved item${displayMaterials.length !== 1 ? 's' : ''}`
+              : `${displayMaterials.length} result${displayMaterials.length !== 1 ? 's' : ''}${searchQuery ? ` for "${searchQuery}"` : ''}`}
           </p>
         </div>
         {!isCollectionsView && (
-          <button 
+          <button
             onClick={onClearSearch}
-            className="flex items-center justify-center gap-2 rounded-xl md:rounded-2xl px-4 md:px-5 py-2 md:py-2.5 bg-blue-50 text-blue-600 font-bold hover:bg-blue-100 transition-all active:scale-95 border border-blue-100 text-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-500 text-xs font-bold transition-all active:scale-95"
           >
-            <svg className="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            Clear Search
+            Clear
           </button>
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto no-scrollbar pr-2 md:pr-4 -mr-2 md:-mr-4">
-        <div className="grid grid-cols-1 gap-3 md:gap-4 pb-4">
-          {displayMaterials.map((item) => (
-            <div 
-              key={item.id} 
-              onClick={() => onSelectMaterial(item)}
-              className="group flex items-center gap-4 md:gap-6 p-4 md:p-5 rounded-2xl md:rounded-[2rem] border-2 border-slate-50 bg-slate-50/30 hover:bg-white hover:border-blue-400 hover:shadow-lg md:hover:shadow-xl md:hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-            >
-              <div className="flex h-12 w-12 md:h-16 md:w-16 flex-shrink-0 items-center justify-center rounded-xl md:rounded-2xl bg-white text-2xl md:text-3xl shadow-sm group-hover:rotate-6 transition-transform">
-                {item.icon}
-              </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="text-base md:text-xl font-black text-slate-900 truncate group-hover:text-blue-600 transition-colors uppercase tracking-tight">{item.name}</h4>
-                <div className="flex flex-wrap items-center gap-2 md:gap-4 mt-1 md:mt-2 font-bold text-slate-400 text-[0.6rem] md:text-xs uppercase tracking-widest">
-                  <span className="flex items-center gap-1 text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-md">
-                    {item.uploadedBy}
-                  </span>
-                  <span className="hidden sm:inline h-1 w-1 rounded-full bg-slate-200"></span>
-                  {item.subject && <span className="text-slate-500 font-extrabold">{item.subject}</span>}
-                  {item.chapterName && <span className="text-slate-400 font-medium ml-1">({item.chapterName})</span>}
-                  <span className="hidden sm:inline h-1 w-1 rounded-full bg-slate-200 ml-1"></span>
-                  <span>{item.date}</span>
-                  <span className="h-1 w-1 rounded-full bg-slate-200"></span>
-                  <span className="text-blue-500/70">{item.type}</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {onToggleCollection && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onToggleCollection(item.id);
-                    }}
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all active:scale-90 ${
-                      collectionIds.includes(item.id)
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
-                        : 'bg-slate-100 text-slate-400 hover:bg-blue-50 hover:text-blue-600'
-                    }`}
-                    title={collectionIds.includes(item.id) ? "Remove from Collection" : "Add to Collection"}
-                  >
-                    <svg className="h-5 w-5" fill={collectionIds.includes(item.id) ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
-                    </svg>
-                  </button>
-                )}
-                
-                <div className="hidden md:flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-400 opacity-0 group-hover:opacity-100 transition-all">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                    <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-
-                {onDelete && item.uploaderId === currentUserId && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDelete(item.id);
-                    }}
-                    className="hidden group-hover:flex h-10 w-10 items-center justify-center rounded-xl bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-all active:scale-90"
-                    title="Delete Note"
-                  >
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                )}
-              </div>
+      {/* Results list */}
+      <div className="flex-1 overflow-y-auto no-scrollbar -mx-1 px-1">
+        {displayMaterials.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-full text-center py-16">
+            <div className="h-20 w-20 rounded-3xl bg-indigo-50 flex items-center justify-center text-4xl mb-5 shadow-inner">
+              {isCollectionsView ? '📁' : '🔍'}
             </div>
-          ))}
-          {displayMaterials.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="text-5xl md:text-6xl mb-6">{isCollectionsView ? '📁' : '🔍'}</div>
-              <h3 className="text-xl md:text-2xl font-black text-slate-800">
-                {isCollectionsView ? 'Your collection is empty' : 'No matches found'}
-              </h3>
-              <p className="text-sm md:text-slate-400 font-bold mt-2">
-                {isCollectionsView ? 'Save interesting materials to see them here!' : 'Try a different search term.'}
-              </p>
-            </div>
-          )}
-        </div>
+            <h3 className="text-lg font-black text-slate-700 mb-2">
+              {isCollectionsView ? 'Collection is empty' : 'No results found'}
+            </h3>
+            <p className="text-sm text-slate-400 font-medium max-w-xs">
+              {isCollectionsView
+                ? 'Bookmark materials from search results to see them here.'
+                : 'Try a different keyword or browse all materials.'}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-2.5 pb-4">
+            {displayMaterials.map((item) => {
+              const tc = typeConfig[item.type] || typeConfig.text;
+              const icon = typeIcons[item.type] || '📄';
+              const isInCollection = collectionIds.includes(item.id);
+              const isOwner = item.uploaderId === currentUserId;
+
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => onSelectMaterial(item)}
+                  className="group flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-50 transition-all duration-200 cursor-pointer card-hover"
+                >
+                  {/* Icon */}
+                  <div className={`h-12 w-12 flex-shrink-0 rounded-2xl ${tc.bg} ${tc.border} border flex items-center justify-center text-2xl shadow-sm group-hover:scale-105 transition-transform`}>
+                    {icon}
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-sm font-bold text-slate-800 truncate group-hover:text-indigo-600 transition-colors">
+                      {item.name}
+                    </h4>
+                    <div className="flex flex-wrap items-center gap-2 mt-1">
+                      <span className={`text-[0.6rem] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${tc.bg} ${tc.text}`}>
+                        {tc.label}
+                      </span>
+                      {item.subject && (
+                        <span className="text-[0.65rem] font-semibold text-slate-500">{item.subject}</span>
+                      )}
+                      {item.chapterName && (
+                        <span className="text-[0.65rem] text-slate-400">· {item.chapterName}</span>
+                      )}
+                      <span className="text-[0.65rem] text-slate-300 ml-auto">{item.date}</span>
+                    </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <div className="h-4 w-4 rounded-full overflow-hidden bg-indigo-100">
+                        <img
+                          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${item.uploadedBy?.replace(/\s+/g, '')}`}
+                          alt=""
+                          className="h-full w-full"
+                        />
+                      </div>
+                      <span className="text-[0.6rem] font-semibold text-slate-400">{item.uploadedBy}</span>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {onToggleCollection && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); onToggleCollection(item.id); }}
+                        className={`h-8 w-8 flex items-center justify-center rounded-xl transition-all active:scale-90 ${
+                          isInCollection
+                            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
+                            : 'bg-slate-50 text-slate-300 hover:bg-indigo-50 hover:text-indigo-500 border border-slate-100'
+                        }`}
+                        title={isInCollection ? 'Remove from collection' : 'Save to collection'}
+                      >
+                        <svg className="h-4 w-4" fill={isInCollection ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+                        </svg>
+                      </button>
+                    )}
+
+                    {onDelete && isOwner && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); onDelete(item.id); }}
+                        className="h-8 w-8 flex items-center justify-center rounded-xl bg-slate-50 text-slate-300 hover:bg-red-50 hover:text-red-500 border border-slate-100 transition-all active:scale-90 opacity-0 group-hover:opacity-100"
+                        title="Delete note"
+                      >
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                        </svg>
+                      </button>
+                    )}
+
+                    {/* Arrow */}
+                    <div className="h-8 w-8 flex items-center justify-center rounded-xl text-slate-200 group-hover:text-indigo-400 group-hover:bg-indigo-50 transition-all">
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                        <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -398,13 +398,13 @@ function HomePage() {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col-reverse md:flex-row bg-slate-50 font-sans text-slate-900 overflow-hidden">
+    <div className="flex h-screen w-full flex-col md:flex-row bg-mesh font-sans text-slate-900 overflow-hidden">
       <Sidebar 
         onUploadClick={() => { setIsTextMode(false); setIsModalOpen(true); navigate('/upload'); }} 
         isTextMode={isTextMode}
       />
 
-      <div className="flex flex-1 flex-col h-full overflow-hidden relative">
+      <div className="flex flex-1 flex-col h-full overflow-hidden relative min-w-0">
         <Header 
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -415,35 +415,30 @@ function HomePage() {
           setViewMode={(mode) => mode === 'HOME' ? navigate('/upload') : null}
         />
 
-        <main className="flex-1 px-4 py-4 md:px-12 md:py-6 max-w-7xl mx-auto w-full flex flex-col overflow-hidden">
-          <div className="relative overflow-hidden rounded-3xl md:rounded-[3rem] bg-white p-6 md:p-10 shadow-xl md:shadow-2xl shadow-slate-200/60 flex-1 flex flex-col items-center justify-center border border-slate-50">
-            <div className="absolute -left-10 -top-10 md:-left-16 md:-top-16 text-[6rem] md:text-[10rem] font-black opacity-[0.02] rotate-12 pointer-events-none font-display">OceanX</div>
-            <div className="absolute top-0 right-0 w-48 h-48 md:w-96 md:h-96 bg-blue-100/30 rounded-full blur-[60px] md:blur-[120px] -mr-24 -mt-24 md:-mr-48 md:-mt-48 pointer-events-none"></div>
+        <main className="flex-1 px-3 py-3 md:px-6 md:py-5 w-full flex flex-col overflow-hidden pb-20 md:pb-5">
+          <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/80 backdrop-blur-sm p-5 md:p-8 shadow-lg shadow-indigo-100/30 flex-1 flex flex-col items-center justify-center border border-white">
+            {/* Subtle corner glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-100/40 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-100/30 rounded-full blur-3xl -ml-24 -mb-24 pointer-events-none" />
 
             {renderContent()}
 
             {feedback.message && (
-              <div className={`absolute top-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-2xl font-bold shadow-xl animate-in slide-in-from-top duration-300 z-50 ${
-                feedback.type === 'success' ? 'bg-emerald-500 text-white' : 
-                feedback.type === 'error' ? 'bg-rose-500 text-white' : 
-                'bg-blue-600 text-white'
+              <div className={`absolute top-4 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-xl font-bold text-sm shadow-xl animate-slide-up z-50 whitespace-nowrap ${
+                feedback.type === 'success' ? 'bg-emerald-500 text-white shadow-emerald-200' : 
+                feedback.type === 'error' ? 'bg-rose-500 text-white shadow-rose-200' : 
+                'bg-indigo-600 text-white shadow-indigo-200'
               }`}>
                 {feedback.message}
               </div>
             )}
 
             {isLoading && (
-              <div className="absolute inset-0 bg-white/60 backdrop-blur-sm z-40 flex flex-col items-center justify-center rounded-[3rem]">
-                <div className="h-16 w-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                <p className="mt-4 font-black text-blue-600 uppercase tracking-widest text-sm">Processing Material...</p>
+              <div className="absolute inset-0 bg-white/70 backdrop-blur-sm z-40 flex flex-col items-center justify-center rounded-3xl">
+                <div className="h-12 w-12 border-3 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                <p className="mt-4 font-bold text-indigo-600 uppercase tracking-widest text-xs">Processing...</p>
               </div>
             )}
-            
-            <div className="absolute bottom-6 right-6 md:bottom-12 md:right-12 flex gap-3 md:gap-6 opacity-30 pointer-events-none">
-              <div className="h-3 w-3 md:h-5 md:w-5 rounded-full bg-blue-500 animate-bounce"></div>
-              <div className="h-3 w-3 md:h-5 md:w-5 rounded-full bg-indigo-500 animate-bounce delay-150"></div>
-              <div className="h-3 w-3 md:h-5 md:w-5 rounded-full bg-slate-500 animate-bounce delay-300"></div>
-            </div>
           </div>
         </main>
       </div>
