@@ -31,7 +31,7 @@ function LoginPage() {
 
       if (data.success) {
         localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify({ name: data.name, email: data.email }));
+        localStorage.setItem('user', JSON.stringify({ id: data._id, name: data.name, email: data.email }));
         navigate('/upload');
       } else {
         setError(data.message || 'Authentication failed');

@@ -166,6 +166,15 @@ const noteService = {
             console.error('Failed to fetch quiz attempt:', error);
             throw error;
         }
+    },
+    deleteNote: async (id) => {
+        try {
+            const response = await api.delete(`/notes/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Failed to delete note:', error);
+            throw error;
+        }
     }
 };
 

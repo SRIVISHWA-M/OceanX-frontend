@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SearchResultsView({ materials, searchQuery, onSelectMaterial, onClearSearch, isCollectionsView, onToggleCollection, collectionIds = [] }) {
+function SearchResultsView({ materials, searchQuery, onSelectMaterial, onClearSearch, isCollectionsView, onToggleCollection, collectionIds = [], onDelete, currentUserId }) {
   const displayMaterials = materials || [];
 
   return (
@@ -79,6 +79,21 @@ function SearchResultsView({ materials, searchQuery, onSelectMaterial, onClearSe
                     <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
+
+                {onDelete && item.uploaderId === currentUserId && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(item.id);
+                    }}
+                    className="hidden group-hover:flex h-10 w-10 items-center justify-center rounded-xl bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-all active:scale-90"
+                    title="Delete Note"
+                  >
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           ))}

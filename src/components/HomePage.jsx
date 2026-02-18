@@ -38,6 +38,15 @@ function HomePage() {
   const [pendingFile, setPendingFile] = useState(null);
   const [collectionIds, setCollectionIds] = useState([]);
   const [collectionNotes, setCollectionNotes] = useState([]);
+  // Get current user from localStorage
+  const [currentUser] = useState(() => {
+    const user = localStorage.getItem('user');
+    try {
+      return user ? JSON.parse(user) : null;
+    } catch (e) {
+      return null;
+    }
+  });
 
   // Mapper to convert DB notes to UI format
   const mapNoteToUI = (note) => ({
@@ -51,7 +60,10 @@ function HomePage() {
     content: note.content,
     fileUrl: note.fileUrl ? `https://oceanx-backend.onrender.com${note.fileUrl}` : null,
     chapterName: note.chapterName,
-    subject: note.subject
+    fileUrl: note.fileUrl ? `https://oceanx-backend.onrender.com${note.fileUrl}` : null,
+    chapterName: note.chapterName,
+    subject: note.subject,
+    uploaderId: note.user?._id || note.user?.id || note.user // Save uploader ID for delete permission
   });
 
   const MOCK_MATERIALS = [
@@ -262,6 +274,30 @@ function HomePage() {
     }
   };
 
+  const handleDeleteNote = async (noteId) => {
+    if (!window.confirm("Are you sure you want to delete this note? This action cannot be undone.")) return;
+
+    try {
+      await noteService.deleteNote(noteId);
+      
+      // Update local state by removing deleted note
+      setRealNotes(prev => prev.filter(n => n.id !== noteId));
+      setCollectionNotes(prev => prev.filter(n => n.id !== noteId));
+      
+      // If we deleted the active material, clear it
+      if (activeMaterial && activeMaterial.id === noteId) {
+        setActiveMaterial(null);
+        navigate('/search');
+      }
+
+      setFeedback({ message: 'Note deleted permanently', type: 'success' });
+      setTimeout(() => setFeedback({ message: '', type: '' }), 3000);
+    } catch (err) {
+      console.error('Error deleting note:', err);
+      setFeedback({ message: 'Failed to delete note. Ensure you are the owner.', type: 'error' });
+    }
+  };
+
   const handleSearchTrigger = (e) => {
     if (e.key === 'Enter' && searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}&type=${searchCategory}`);
@@ -316,6 +352,8 @@ function HomePage() {
           onClearSearch={() => { setSearchQuery(''); navigate('/upload'); }}
           onToggleCollection={handleToggleCollection}
           collectionIds={collectionIds}
+          onDelete={handleDeleteNote}
+          currentUserId={currentUser?.id}
         />
       );
     }
@@ -329,6 +367,8 @@ function HomePage() {
           isCollectionsView={true}
           onToggleCollection={handleToggleCollection}
           collectionIds={collectionIds}
+          onDelete={handleDeleteNote}
+          currentUserId={currentUser?.id}
         />
       );
     }
