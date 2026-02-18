@@ -152,10 +152,10 @@ function DashboardView() {
         </div>
 
         <div className="bg-gradient-to-br from-blue-600 to-blue-900 rounded-3xl p-8 border border-white/10 shadow-xl shadow-blue-900/20 text-white relative overflow-hidden flex flex-col">
-          {/* Animated waves at bottom - Darkened slight blue */}
-          <div className="absolute bottom-0 left-0 right-0 h-16 opacity-20 pointer-events-none">
+          {/* Animated waves at bottom - Vibrant Blue */}
+          <div className="absolute bottom-0 left-0 right-0 h-16 opacity-15 pointer-events-none">
             <svg viewBox="0 0 400 60" preserveAspectRatio="none" className="w-full h-full animate-wave">
-              <path d="M0,30 C100,60 200,0 300,30 C400,60 500,0 600,30 L600,60 L0,60 Z" fill="#1e40af"/>
+              <path d="M0,30 C100,60 200,0 300,30 C400,60 500,0 600,30 L600,60 L0,60 Z" fill="#3b82f6"/>
             </svg>
           </div>
 
