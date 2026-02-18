@@ -19,7 +19,7 @@ function LoginPage() {
     const body = isLogin ? { email, password } : { name, email, password };
 
     try {
-      const response = await fetch(`https://oceanx-backend.vercel.app${endpoint}`, {
+      const response = await fetch(`https://oceanx-backend.onrender.com${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
