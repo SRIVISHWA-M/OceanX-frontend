@@ -38,7 +38,6 @@ function HomePage() {
   const [pendingFile, setPendingFile] = useState(null);
   const [collectionIds, setCollectionIds] = useState([]);
   const [collectionNotes, setCollectionNotes] = useState([]);
-  // Get current user from localStorage
   const [currentUser] = useState(() => {
     const user = localStorage.getItem('user');
     try {
@@ -48,7 +47,6 @@ function HomePage() {
     }
   });
 
-  // Mapper to convert DB notes to UI format
   const mapNoteToUI = (note) => ({
     id: note._id,
     name: note.title,
@@ -60,10 +58,8 @@ function HomePage() {
     content: note.content,
     fileUrl: note.fileUrl ? `https://oceanx-backend.onrender.com${note.fileUrl}` : null,
     chapterName: note.chapterName,
-    fileUrl: note.fileUrl ? `https://oceanx-backend.onrender.com${note.fileUrl}` : null,
-    chapterName: note.chapterName,
     subject: note.subject,
-    uploaderId: note.user?._id || note.user?.id || note.user // Save uploader ID for delete permission
+    uploaderId: note.user?._id || note.user?.id || note.user
   });
 
   const MOCK_MATERIALS = [
@@ -75,7 +71,6 @@ function HomePage() {
     { id: 6, name: 'Organic_Chemistry_Summary.pdf', type: 'pdf', date: 'Oct 10', size: '1.8 MB', icon: '📕', uploadedBy: 'Emily Blunt', subject: 'Chemistry', chapterName: 'Organics' }
   ];
 
-  // Fetch real notes on mount and when query/category changes
   useEffect(() => {
     const loadNotes = async () => {
       try {
@@ -88,7 +83,6 @@ function HomePage() {
     loadNotes();
   }, [searchQuery, searchCategory]);
   
-  // Fetch collection
   useEffect(() => {
     const loadCollection = async () => {
       try {
@@ -104,7 +98,6 @@ function HomePage() {
     loadCollection();
   }, []);
 
-  // Sync searchQuery and category with URL params if they exist
   useEffect(() => {
     const q = searchParams.get('q');
     const type = searchParams.get('type');
@@ -112,7 +105,6 @@ function HomePage() {
     if (type !== null) setSearchCategory(type || 'all');
   }, [searchParams]);
 
-  // Load active material for preview/quiz
   useEffect(() => {
     const loadActiveMaterial = async () => {
       const isNotePath = location.pathname.startsWith('/preview') || location.pathname.startsWith('/quiz/');
@@ -122,21 +114,12 @@ function HomePage() {
         return;
       }
 
-      // 1. Try mock data
       const mock = MOCK_MATERIALS.find(m => m.id === parseInt(materialId));
-      if (mock) {
-        setActiveMaterial(mock);
-        return;
-      }
+      if (mock) { setActiveMaterial(mock); return; }
 
-      // 2. Try already loaded real notes
       const foundInState = realNotes.find(n => n.id === materialId);
-      if (foundInState) {
-        setActiveMaterial(foundInState);
-        return;
-      }
+      if (foundInState) { setActiveMaterial(foundInState); return; }
 
-      // 3. Fetch from API if not found (e.g., direct link or refresh)
       try {
         setIsLoading(true);
         const response = await noteService.fetchNoteById(materialId);
@@ -203,7 +186,6 @@ function HomePage() {
       setFeedback({ message: 'Note uploaded successfully!', type: 'success' });
       setUploadedFiles(prev => [...prev, response.data]);
       
-      // Refresh notes list
       const notesRes = await noteService.fetchNotes(searchQuery);
       setRealNotes(notesRes.data.map(mapNoteToUI));
 
@@ -229,12 +211,7 @@ function HomePage() {
       setFeedback({ message: 'Saving text note...', type: 'info' });
 
       try {
-        const noteData = {
-          title: manualTitle.trim(),
-          content: manualText,
-          type: 'text'
-        };
-
+        const noteData = { title: manualTitle.trim(), content: manualText, type: 'text' };
         const response = await noteService.uploadNoteText(noteData);
         
         setFeedback({ message: 'Text note saved!', type: 'success' });
@@ -259,7 +236,6 @@ function HomePage() {
       const response = await noteService.toggleCollection(noteId);
       if (response.success) {
         setCollectionIds(response.data);
-        // Refresh collection notes list
         const notesRes = await noteService.fetchCollectionNotes();
         setCollectionNotes(notesRes.data.map(mapNoteToUI));
         setFeedback({ 
@@ -279,12 +255,9 @@ function HomePage() {
 
     try {
       await noteService.deleteNote(noteId);
-      
-      // Update local state by removing deleted note
       setRealNotes(prev => prev.filter(n => n.id !== noteId));
       setCollectionNotes(prev => prev.filter(n => n.id !== noteId));
       
-      // If we deleted the active material, clear it
       if (activeMaterial && activeMaterial.id === noteId) {
         setActiveMaterial(null);
         navigate('/search');
@@ -319,7 +292,6 @@ function HomePage() {
     }
   };
 
-  // Determine which component to render based on path
   const path = location.pathname;
 
   const renderContent = () => {
@@ -397,13 +369,16 @@ function HomePage() {
     );
   };
 
+  // Determine if the current view needs full-height scrollable layout vs centered layout
+  const isCenteredView = path === '/upload' && !isTextMode;
+
   return (
-    <div className="flex h-screen w-full flex-col md:flex-row bg-mesh font-sans text-slate-900 overflow-hidden">
+    <div className="flex h-screen w-full md:flex-row bg-mesh font-sans text-slate-900 overflow-hidden">
       <Sidebar 
         onUploadClick={() => { setIsTextMode(false); setIsModalOpen(true); navigate('/upload'); }} 
-        isTextMode={isTextMode}
       />
 
+      {/* Main column */}
       <div className="flex flex-1 flex-col h-full overflow-hidden relative min-w-0">
         <Header 
           searchQuery={searchQuery}
@@ -415,27 +390,50 @@ function HomePage() {
           setViewMode={(mode) => mode === 'HOME' ? navigate('/upload') : null}
         />
 
-        <main className="flex-1 px-3 py-3 md:px-6 md:py-5 w-full flex flex-col overflow-hidden pb-20 md:pb-5">
-          <div className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-white/80 backdrop-blur-sm p-5 md:p-8 shadow-lg shadow-indigo-100/30 flex-1 flex flex-col items-center justify-center border border-white">
-            {/* Subtle corner glow */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-100/40 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-100/30 rounded-full blur-3xl -ml-24 -mb-24 pointer-events-none" />
+        {/* Content area — fills remaining height, scrolls internally */}
+        <main className="flex-1 min-h-0 px-3 py-3 md:px-5 md:py-4 flex flex-col pb-[72px] md:pb-4">
+          {/* Card shell */}
+          <div className={`relative flex-1 min-h-0 rounded-2xl bg-white/85 backdrop-blur-sm border border-white shadow-lg shadow-indigo-100/20 overflow-hidden flex flex-col ${isCenteredView ? 'items-center justify-center' : ''}`}>
 
-            {renderContent()}
+            {/* Animated ocean wave decoration */}
+            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-24 opacity-[0.04]" aria-hidden="true">
+              <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-full animate-wave">
+                <path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1440,20 1440,40 L1440,80 L0,80 Z" fill="#6366f1"/>
+              </svg>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-16 opacity-[0.03]" aria-hidden="true">
+              <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full h-full animate-wave-slow">
+                <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="#06b6d4"/>
+              </svg>
+            </div>
 
+            {/* Corner glows */}
+            <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-100/30 rounded-full blur-3xl -mr-36 -mt-36 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-56 h-56 bg-cyan-100/20 rounded-full blur-3xl -ml-28 -mb-28 pointer-events-none" />
+
+            {/* Scrollable inner content */}
+            <div className={`relative z-10 flex-1 min-h-0 w-full ${isCenteredView ? 'flex items-center justify-center p-5 md:p-8' : 'overflow-y-auto p-5 md:p-8'}`}>
+              {renderContent()}
+            </div>
+
+            {/* Toast notification */}
             {feedback.message && (
-              <div className={`absolute top-4 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-xl font-bold text-sm shadow-xl animate-slide-up z-50 whitespace-nowrap ${
-                feedback.type === 'success' ? 'bg-emerald-500 text-white shadow-emerald-200' : 
-                feedback.type === 'error' ? 'bg-rose-500 text-white shadow-rose-200' : 
-                'bg-indigo-600 text-white shadow-indigo-200'
+              <div className={`absolute top-4 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-xl font-bold text-sm shadow-xl z-50 whitespace-nowrap animate-slide-up ${
+                feedback.type === 'success' ? 'bg-emerald-500 text-white shadow-emerald-200/50' : 
+                feedback.type === 'error' ? 'bg-rose-500 text-white shadow-rose-200/50' : 
+                'bg-indigo-600 text-white shadow-indigo-200/50'
               }`}>
                 {feedback.message}
               </div>
             )}
 
+            {/* Loading overlay */}
             {isLoading && (
-              <div className="absolute inset-0 bg-white/70 backdrop-blur-sm z-40 flex flex-col items-center justify-center rounded-3xl">
-                <div className="h-12 w-12 border-3 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+              <div className="absolute inset-0 bg-white/75 backdrop-blur-sm z-40 flex flex-col items-center justify-center rounded-2xl">
+                <div className="relative">
+                  <div className="h-14 w-14 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin" />
+                  <div className="absolute inset-0 flex items-center justify-center text-lg">🌊</div>
+                </div>
                 <p className="mt-4 font-bold text-indigo-600 uppercase tracking-widest text-xs">Processing...</p>
               </div>
             )}
@@ -459,11 +457,6 @@ function HomePage() {
       )}
 
       <input type="file" id="file-upload" className="hidden" multiple onChange={handleChange} />
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .animate-spin-slow { animation: spin-slow 8s linear infinite; }
-      `}} />
     </div>
   );
 }

@@ -55,8 +55,20 @@ function LoginPage() {
           {/* Floating academic icons */}
           <div className="absolute top-[18%] right-[12%] text-6xl opacity-20 animate-float pointer-events-none">📚</div>
           <div className="absolute top-[50%] left-[8%] text-5xl opacity-15 animate-float-delay pointer-events-none">🎓</div>
-          <div className="absolute bottom-[22%] right-[8%] text-5xl opacity-20 animate-float pointer-events-none" style={{ animationDelay: '0.8s' }}>📝</div>
-          <div className="absolute bottom-[12%] left-[18%] text-4xl opacity-15 pointer-events-none">✏️</div>
+          <div className="absolute bottom-[28%] right-[8%] text-5xl opacity-20 animate-float pointer-events-none" style={{ animationDelay: '0.8s' }}>📝</div>
+          <div className="absolute top-[30%] left-[18%] text-4xl opacity-15 animate-float pointer-events-none" style={{ animationDelay: '1.2s' }}>✏️</div>
+
+          {/* Ocean wave at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 overflow-hidden h-20 pointer-events-none opacity-20">
+            <svg viewBox="0 0 800 80" preserveAspectRatio="none" className="w-[200%] h-full animate-wave">
+              <path d="M0,40 C100,80 200,0 300,40 C400,80 500,0 600,40 C700,80 800,20 800,40 L800,80 L0,80 Z" fill="white"/>
+            </svg>
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 overflow-hidden h-12 pointer-events-none opacity-10">
+            <svg viewBox="0 0 800 60" preserveAspectRatio="none" className="w-[200%] h-full animate-wave-slow">
+              <path d="M0,30 C133,60 266,0 400,30 C533,60 666,0 800,30 L800,60 L0,60 Z" fill="white"/>
+            </svg>
+          </div>
 
           {/* Logo */}
           <div className="relative z-10 flex items-center gap-3">
