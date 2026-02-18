@@ -9,7 +9,6 @@ export const uploadNoteFile = async (formData) => {
         const response = await api.post('/notes/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         });
         return response.data;
@@ -25,11 +24,7 @@ export const uploadNoteFile = async (formData) => {
  */
 export const uploadNoteText = async (noteData) => {
     try {
-        const response = await api.post('/notes/text', noteData, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+        const response = await api.post('/notes/text', noteData);
         return response.data;
     } catch (error) {
         console.error('Failed to upload text note:', error);
@@ -43,11 +38,7 @@ export const uploadNoteText = async (noteData) => {
  */
 export const fetchNotes = async (search = '', type = 'all') => {
     try {
-        const response = await api.get(`/notes?search=${search}&type=${type}`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+        const response = await api.get(`/notes?search=${search}&type=${type}`);
         return response.data;
     } catch (error) {
         console.error('Failed to fetch notes:', error);
@@ -61,11 +52,7 @@ export const fetchNotes = async (search = '', type = 'all') => {
  */
 export const fetchNoteById = async (id) => {
     try {
-        const response = await api.get(`/notes/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+        const response = await api.get(`/notes/${id}`);
         return response.data;
     } catch (error) {
         console.error('Failed to fetch note by ID:', error);
@@ -79,11 +66,7 @@ export const fetchNoteById = async (id) => {
  */
 export const generateAISummary = async (id) => {
     try {
-        const response = await api.post(`/notes/${id}/summary`, {}, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+        const response = await api.post(`/notes/${id}/summary`, {});
         return response.data;
     } catch (error) {
         console.error('Failed to generate AI summary:', error);
@@ -97,11 +80,7 @@ export const generateAISummary = async (id) => {
  */
 export const generateAIQuiz = async (id) => {
     try {
-        const response = await api.post(`/notes/${id}/quiz`, {}, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+        const response = await api.post(`/notes/${id}/quiz`, {});
         return response.data;
     } catch (error) {
         console.error('Failed to generate AI quiz:', error);
@@ -118,11 +97,7 @@ export const generateAIQuiz = async (id) => {
  */
 export const getQuizFeedback = async (id, score, total, answers = []) => {
     try {
-        const response = await api.post(`/notes/${id}/feedback`, { score, total, answers }, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+        const response = await api.post(`/notes/${id}/feedback`, { score, total, answers });
         return response.data;
     } catch (error) {
         console.error('Failed to get AI feedback:', error);
@@ -140,11 +115,7 @@ const noteService = {
     getQuizFeedback,
     performOCR: async (id) => {
         try {
-            const response = await api.post(`/notes/${id}/ocr`, {}, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+            const response = await api.post(`/notes/${id}/ocr`, {});
             return response.data;
         } catch (error) {
             console.error('Failed to perform OCR:', error);
@@ -153,11 +124,7 @@ const noteService = {
     },
     toggleCollection: async (id) => {
         try {
-            const response = await api.post(`/notes/${id}/collection`, {}, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+            const response = await api.post(`/notes/${id}/collection`, {});
             return response.data;
         } catch (error) {
             console.error('Failed to toggle collection:', error);
@@ -166,11 +133,7 @@ const noteService = {
     },
     fetchCollectionNotes: async () => {
         try {
-            const response = await api.get('/notes/collection', {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+            const response = await api.get('/notes/collection');
             return response.data;
         } catch (error) {
             console.error('Failed to fetch collection notes:', error);
@@ -179,11 +142,7 @@ const noteService = {
     },
     fetchUserStats: async () => {
         try {
-            const response = await api.get('/auth/stats', {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+            const response = await api.get('/auth/stats');
             return response.data;
         } catch (error) {
             console.error('Failed to fetch user stats:', error);
@@ -192,11 +151,7 @@ const noteService = {
     },
     fetchQuizHistory: async () => {
         try {
-            const response = await api.get('/notes/quiz/history', {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+            const response = await api.get('/notes/quiz/history');
             return response.data;
         } catch (error) {
             console.error('Failed to fetch quiz history:', error);
@@ -205,11 +160,7 @@ const noteService = {
     },
     fetchQuizAttemptById: async (id) => {
         try {
-            const response = await api.get(`/notes/quiz/attempt/${id}`, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+            const response = await api.get(`/notes/quiz/attempt/${id}`);
             return response.data;
         } catch (error) {
             console.error('Failed to fetch quiz attempt:', error);
