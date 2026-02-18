@@ -54,13 +54,13 @@ function Sidebar({ onUploadClick }) {
   return (
     <>
       {/* ── Desktop sidebar ── */}
-      <aside className="hidden md:flex flex-col w-[72px] hover:w-56 h-full bg-white border-r border-indigo-50 transition-all duration-300 ease-in-out overflow-hidden group shrink-0 shadow-sm z-30">
+      <aside className="hidden md:flex flex-col w-[72px] hover:w-56 h-full bg-white border-r border-blue-50 transition-all duration-300 ease-in-out overflow-hidden group shrink-0 shadow-sm z-30">
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 py-5 mb-2 shrink-0">
-          <div className="h-10 w-10 flex-shrink-0 rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white text-lg shadow-lg shadow-indigo-200">
-            🌊
+          <div className="h-10 w-10 flex-shrink-0 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-white text-lg shadow-lg shadow-blue-200">
+            🎓
           </div>
-          <span className="text-lg font-black text-indigo-900 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap font-display">
+          <span className="text-lg font-black text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap font-display uppercase tracking-tight">
             OceanX
           </span>
         </div>

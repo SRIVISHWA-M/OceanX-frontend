@@ -34,8 +34,8 @@ function DashboardView() {
     return (
       <div className="w-full h-full flex items-center justify-center bg-white/50 backdrop-blur-sm rounded-3xl">
         <div className="relative">
-          <div className="h-16 w-16 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin"></div>
-          <div className="absolute inset-0 flex items-center justify-center text-xl">📊</div>
+          <div className="h-16 w-16 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
+          <div className="absolute inset-0 flex items-center justify-center text-xl">🎓</div>
         </div>
       </div>
     );
@@ -46,10 +46,10 @@ function DashboardView() {
     : 0;
 
   const statCards = [
-    { label: 'Total Materials', value: stats.totalUploads, icon: '📖', color: 'from-blue-500 to-indigo-500', bg: 'bg-blue-50/50', border: 'border-blue-100/50' },
-    { label: 'Saved Items', value: stats.totalSaved, icon: '🔖', color: 'from-indigo-500 to-violet-500', bg: 'bg-indigo-50/50', border: 'border-indigo-100/50' },
-    { label: 'Quizzes Taken', value: stats.totalQuizzes, icon: '🧩', color: 'from-cyan-500 to-blue-500', bg: 'bg-cyan-50/50', border: 'border-cyan-100/50' },
-    { label: 'Avg. Accuracy', value: `${avgAccuracy}%`, icon: '🎯', color: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50/50', border: 'border-emerald-100/50' },
+    { label: 'Total Materials', value: stats.totalUploads, icon: '📚', color: 'from-blue-600 to-blue-400', bg: 'bg-blue-50/50', border: 'border-blue-100/50' },
+    { label: 'Saved Items', value: stats.totalSaved, icon: '🔖', color: 'from-blue-500 to-cyan-500', bg: 'bg-indigo-50/50', border: 'border-blue-100/50' },
+    { label: 'Quizzes Taken', value: stats.totalQuizzes, icon: '🎓', color: 'from-blue-700 to-blue-500', bg: 'bg-blue-50/50', border: 'border-blue-100/50' },
+    { label: 'Avg. Accuracy', value: `${avgAccuracy}%`, icon: '🎯', color: 'from-emerald-600 to-teal-500', bg: 'bg-emerald-50/50', border: 'border-emerald-100/50' },
   ];
 
   return (
@@ -66,9 +66,9 @@ function DashboardView() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="px-4 py-2 bg-indigo-50 rounded-xl border border-indigo-100/50 flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>
-            <span className="text-[0.65rem] font-bold text-indigo-600 uppercase tracking-wider">Live Tracking</span>
+          <div className="px-4 py-2 bg-blue-50 rounded-xl border border-blue-100/50 flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
+            <span className="text-[0.65rem] font-bold text-blue-600 uppercase tracking-wider">Live Tracking</span>
           </div>
         </div>
       </div>
@@ -131,12 +131,12 @@ function DashboardView() {
                   <Area 
                     type="monotone" 
                     dataKey="score" 
-                    stroke="#6366f1" 
+                    stroke="#2563eb" 
                     strokeWidth={4}
                     fillOpacity={1}
                     fill="url(#colorScore)"
-                    dot={{ r: 4, fill: '#fff', stroke: '#6366f1', strokeWidth: 2 }}
-                    activeDot={{ r: 6, strokeWidth: 0, fill: '#6366f1' }}
+                    dot={{ r: 4, fill: '#fff', stroke: '#2563eb', strokeWidth: 2 }}
+                    activeDot={{ r: 6, strokeWidth: 0, fill: '#2563eb' }}
                     animationDuration={1500}
                   />
                 </AreaChart>
@@ -151,8 +151,7 @@ function DashboardView() {
           </div>
         </div>
 
-        {/* Level / Achievement Card */}
-        <div className="bg-gradient-to-br from-indigo-600 to-indigo-900 rounded-3xl p-8 border border-white/10 shadow-xl shadow-indigo-900/20 text-white relative overflow-hidden flex flex-col">
+        <div className="bg-gradient-to-br from-blue-600 to-blue-900 rounded-3xl p-8 border border-white/10 shadow-xl shadow-blue-900/20 text-white relative overflow-hidden flex flex-col">
           {/* Animated waves at bottom */}
           <div className="absolute bottom-0 left-0 right-0 h-16 opacity-10 pointer-events-none">
             <svg viewBox="0 0 400 60" preserveAspectRatio="none" className="w-full h-full animate-wave">
@@ -161,7 +160,7 @@ function DashboardView() {
           </div>
 
           <div className="relative z-10 flex-1">
-            <span className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-indigo-200">Scholar Rank</span>
+            <span className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-blue-200">Scholar Rank</span>
             <h3 className="text-2xl font-black font-display mt-2 mb-6">Expert Learner</h3>
             
             <div className="relative h-24 w-24 mx-auto mb-6">

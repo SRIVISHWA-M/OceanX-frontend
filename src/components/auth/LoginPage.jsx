@@ -46,7 +46,7 @@ function LoginPage() {
       <div className="w-full max-w-5xl flex rounded-3xl overflow-hidden shadow-2xl shadow-indigo-200/40 border border-white/80">
 
         {/* ── Left: Branding panel ── */}
-        <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 p-12 relative overflow-hidden">
+        <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 p-12 relative overflow-hidden">
           {/* Decorative circles */}
           <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/5 blur-2xl" />
           <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-cyan-400/10 blur-3xl" />
@@ -73,7 +73,7 @@ function LoginPage() {
           {/* Logo */}
           <div className="relative z-10 flex items-center gap-3">
             <div className="h-12 w-12 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center text-2xl border border-white/20 shadow-xl">
-              🌊
+              🎓
             </div>
             <span className="text-2xl font-black text-white font-display tracking-tight">OceanX</span>
           </div>
@@ -117,8 +117,8 @@ function LoginPage() {
         <div className="flex-1 flex flex-col justify-center bg-white px-8 py-12 sm:px-12">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-2.5 mb-8">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-lg shadow-md">🌊</div>
-            <span className="text-xl font-black text-indigo-900 font-display">OceanX</span>
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-400 flex items-center justify-center text-lg shadow-md">🎓</div>
+            <span className="text-xl font-black text-blue-900 font-display">OceanX</span>
           </div>
 
           <div className="max-w-sm w-full mx-auto">
@@ -193,7 +193,7 @@ function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 mt-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold text-sm shadow-lg shadow-indigo-200 hover:shadow-indigo-300 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full py-3.5 mt-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-sm shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -213,7 +213,7 @@ function LoginPage() {
               {isLogin ? "Don't have an account?" : 'Already a member?'}{' '}
               <button
                 onClick={() => { setIsLogin(!isLogin); setError(''); }}
-                className="text-indigo-600 font-bold hover:text-indigo-800 transition-colors"
+                className="text-blue-600 font-bold hover:text-blue-800 transition-colors"
               >
                 {isLogin ? 'Sign up free' : 'Sign in'}
               </button>
@@ -227,7 +227,7 @@ function LoginPage() {
                 { value: '99%', label: 'Uptime' },
               ].map(({ value, label }) => (
                 <div key={label} className="text-center">
-                  <div className="text-base font-black text-indigo-600">{value}</div>
+                  <div className="text-base font-black text-blue-600">{value}</div>
                   <div className="text-[0.6rem] font-bold text-slate-400 uppercase tracking-widest">{label}</div>
                 </div>
               ))}

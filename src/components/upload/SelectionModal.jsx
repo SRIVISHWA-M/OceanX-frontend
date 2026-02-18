@@ -49,7 +49,7 @@ function SelectionModal({ isModalOpen, setIsModalOpen, onSelectNoteType }) {
         onClick={() => setIsModalOpen(false)}
       />
 
-      <div className="relative w-full sm:max-w-lg bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl shadow-indigo-200/30 border border-slate-100 overflow-hidden animate-slide-up">
+      <div className="relative w-full sm:max-w-lg bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl shadow-blue-200/30 border border-slate-100 overflow-hidden animate-slide-up">
         {/* Handle bar (mobile) */}
         <div className="flex justify-center pt-3 pb-1 sm:hidden">
           <div className="h-1 w-10 rounded-full bg-slate-200" />
@@ -77,7 +77,7 @@ function SelectionModal({ isModalOpen, setIsModalOpen, onSelectNoteType }) {
             <button
               key={type.id}
               onClick={() => onSelectNoteType(type.id)}
-              className={`group relative flex flex-col items-start gap-3 p-4 rounded-2xl border-2 border-slate-50 bg-slate-50/50 hover:bg-white hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-50 active:scale-95 transition-all duration-200 text-left`}
+              className={`group relative flex flex-col items-start gap-3 p-4 rounded-2xl border-2 border-slate-50 bg-slate-50/50 hover:bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-blue-50 active:scale-95 transition-all duration-200 text-left`}
             >
               {/* Icon */}
               <div className={`h-11 w-11 rounded-xl ${type.light} flex items-center justify-center text-2xl group-hover:scale-110 transition-transform`}>
@@ -86,12 +86,12 @@ function SelectionModal({ isModalOpen, setIsModalOpen, onSelectNoteType }) {
 
               {/* Text */}
               <div>
-                <h3 className="text-sm font-black text-slate-800 group-hover:text-indigo-600 transition-colors">{type.title}</h3>
+                <h3 className="text-sm font-black text-slate-800 group-hover:text-blue-600 transition-colors">{type.title}</h3>
                 <p className="text-[0.65rem] text-slate-400 font-medium leading-snug mt-0.5">{type.desc}</p>
               </div>
 
               {/* Arrow */}
-              <div className="absolute top-3 right-3 h-5 w-5 rounded-lg bg-white text-slate-200 group-hover:bg-indigo-600 group-hover:text-white flex items-center justify-center transition-all shadow-sm">
+              <div className="absolute top-3 right-3 h-5 w-5 rounded-lg bg-white text-slate-200 group-hover:bg-blue-600 group-hover:text-white flex items-center justify-center transition-all shadow-sm">
                 <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                   <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>

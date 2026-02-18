@@ -99,7 +99,9 @@ function QuizView({ material, onExit }) {
       <div className="w-full h-full flex flex-col items-center justify-center p-8">
         <div className="w-20 h-20 border-8 border-blue-100 border-t-blue-600 rounded-full animate-spin mb-8"></div>
         <h2 className="text-2xl font-black text-slate-900 mb-2">Generating Your Quiz...</h2>
-        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Gemini is analyzing your notes</p>
+        <p className="text-slate-400 font-bold uppercase tracking-widest text-[0.65rem] flex items-center gap-2">
+          <span className="animate-pulse">🎓</span> OceanX AI is analyzing your notes
+        </p>
       </div>
     );
   }
@@ -127,10 +129,10 @@ function QuizView({ material, onExit }) {
 
     const getPerformanceData = (pct) => {
       if (pct === 100) return { label: 'Perfect Score!', emoji: '💎', color: 'text-blue-600' };
-      if (pct >= 80) return { label: 'Mastery Achieved!', emoji: '🏆', color: 'text-indigo-600' };
-      if (pct >= 50) return { label: 'Great Effort!', emoji: '🌟', color: 'text-slate-900' };
-      if (pct >= 20) return { label: 'Keep Practicing!', emoji: '📚', color: 'text-slate-900' };
-      return { label: "Don't Give Up!", emoji: '💪', color: 'text-slate-900' };
+      if (pct >= 80) return { label: 'Mastery Achieved!', emoji: '🏆', color: 'text-blue-700' };
+      if (pct >= 50) return { label: 'Great Effort!', emoji: '🌟', color: 'text-slate-800' };
+      if (pct >= 20) return { label: 'Keep Practicing!', emoji: '📚', color: 'text-slate-800' };
+      return { label: "Don't Give Up!", emoji: '💪', color: 'text-slate-800' };
     };
 
     const perf = getPerformanceData(accuracy);
@@ -146,12 +148,12 @@ function QuizView({ material, onExit }) {
         <p className="text-[0.65rem] md:text-[0.8rem] font-black text-slate-400 mb-10 md:mb-16 uppercase tracking-[0.4em] md:tracking-[0.6em] text-center shrink-0">Quiz Performance Summary</p>
 
         <div className="grid grid-cols-2 gap-4 md:gap-10 w-full max-w-3xl mb-10 md:mb-16 shrink-0">
-          <div className="bg-white rounded-3xl md:rounded-[3rem] p-8 md:p-12 border-2 border-slate-50 shadow-2xl shadow-slate-100/50 text-center group hover:scale-[1.02] transition-transform">
+          <div className="bg-white rounded-3xl md:rounded-[3rem] p-8 md:p-12 border-2 border-blue-50 shadow-2xl shadow-blue-100/30 text-center group hover:scale-[1.02] transition-transform">
             <span className="block text-4xl md:text-6xl font-black text-blue-600 mb-2">{score}<span className="text-slate-200 ml-1">/</span><span className="text-slate-200">{quiz.length}</span></span>
             <span className="text-[0.6rem] md:text-[0.75rem] font-black text-slate-400 uppercase tracking-widest">Correct Answers</span>
           </div>
-          <div className="bg-white rounded-3xl md:rounded-[3rem] p-8 md:p-12 border-2 border-slate-50 shadow-2xl shadow-slate-100/50 text-center group hover:scale-[1.02] transition-transform">
-            <span className="block text-4xl md:text-6xl font-black text-indigo-600 mb-2">{accuracy}<span className="text-slate-200 text-3xl md:text-4xl ml-1">%</span></span>
+          <div className="bg-white rounded-3xl md:rounded-[3rem] p-8 md:p-12 border-2 border-blue-50 shadow-2xl shadow-blue-100/30 text-center group hover:scale-[1.02] transition-transform">
+            <span className="block text-4xl md:text-6xl font-black text-blue-500 mb-2">{accuracy}<span className="text-slate-200 text-3xl md:text-4xl ml-1">%</span></span>
             <span className="text-[0.6rem] md:text-[0.75rem] font-black text-slate-400 uppercase tracking-widest">Accuracy Rating</span>
           </div>
         </div>

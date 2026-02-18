@@ -395,20 +395,20 @@ function HomePage() {
           {/* Card shell */}
           <div className={`relative flex-1 min-h-0 rounded-2xl bg-white/85 backdrop-blur-sm border border-white shadow-lg shadow-indigo-100/20 overflow-hidden flex flex-col ${isCenteredView ? 'items-center justify-center' : ''}`}>
 
-            {/* Animated ocean wave decoration */}
-            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-24 opacity-[0.04]" aria-hidden="true">
-              <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-full animate-wave">
-                <path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1440,20 1440,40 L1440,80 L0,80 Z" fill="#6366f1"/>
+            {/* Animated ocean wave decoration - Fixed for full width */}
+            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-24 opacity-[0.05]" aria-hidden="true">
+              <svg viewBox="0 0 2880 80" preserveAspectRatio="none" className="h-full animate-wave">
+                <path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1440,20 1440,40 C1620,80 1800,0 1980,40 C2160,80 2340,0 2520,40 C2700,80 2880,20 2880,40 L2880,80 L0,80 Z" fill="#2563eb"/>
               </svg>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-16 opacity-[0.03]" aria-hidden="true">
-              <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full h-full animate-wave-slow">
-                <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="#06b6d4"/>
+            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-16 opacity-[0.04]" aria-hidden="true">
+              <svg viewBox="0 0 2880 60" preserveAspectRatio="none" className="h-full animate-wave-slow">
+                <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 C1680,60 1920,0 2160,30 C2400,60 2640,0 2880,30 L2880,60 L0,60 Z" fill="#0ea5e9"/>
               </svg>
             </div>
 
             {/* Corner glows */}
-            <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-100/30 rounded-full blur-3xl -mr-36 -mt-36 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl -mr-36 -mt-36 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-56 h-56 bg-cyan-100/20 rounded-full blur-3xl -ml-28 -mb-28 pointer-events-none" />
 
             {/* Scrollable inner content */}
@@ -421,7 +421,7 @@ function HomePage() {
               <div className={`absolute top-4 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-xl font-bold text-sm shadow-xl z-50 whitespace-nowrap animate-slide-up ${
                 feedback.type === 'success' ? 'bg-emerald-500 text-white shadow-emerald-200/50' : 
                 feedback.type === 'error' ? 'bg-rose-500 text-white shadow-rose-200/50' : 
-                'bg-indigo-600 text-white shadow-indigo-200/50'
+                'bg-blue-600 text-white shadow-blue-200/50'
               }`}>
                 {feedback.message}
               </div>
@@ -431,10 +431,10 @@ function HomePage() {
             {isLoading && (
               <div className="absolute inset-0 bg-white/75 backdrop-blur-sm z-40 flex flex-col items-center justify-center rounded-2xl">
                 <div className="relative">
-                  <div className="h-14 w-14 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin" />
-                  <div className="absolute inset-0 flex items-center justify-center text-lg">🌊</div>
+                  <div className="h-14 w-14 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin" />
+                  <div className="absolute inset-0 flex items-center justify-center text-lg">🎓</div>
                 </div>
-                <p className="mt-4 font-bold text-indigo-600 uppercase tracking-widest text-xs">Processing...</p>
+                <p className="mt-4 font-bold text-blue-600 uppercase tracking-widest text-xs">Knowledge Loading...</p>
               </div>
             )}
           </div>

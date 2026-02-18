@@ -72,11 +72,11 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
   return (
     <div className="w-full h-full flex flex-col animate-fade-scale">
       {/* Premium Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 pb-6 border-b border-indigo-50/50">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 pb-6 border-b border-blue-50/50">
         <div className="flex items-center gap-5">
           <button 
             onClick={onBack}
-            className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white border border-indigo-50 text-slate-400 hover:text-indigo-600 hover:border-indigo-200 transition-all active:scale-90 shadow-sm"
+            className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white border border-blue-50 text-slate-400 hover:text-blue-600 hover:border-blue-200 transition-all active:scale-90 shadow-sm"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
               <path d="M15 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round"/>
@@ -96,7 +96,7 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
               {material.subject && (
                 <>
                   <span className="text-slate-300 px-1">•</span>
-                  <span className="text-[0.65rem] font-black text-indigo-500 uppercase tracking-[0.15em] bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100/50 shadow-sm">
+                  <span className="text-[0.65rem] font-black text-blue-500 uppercase tracking-[0.15em] bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100/50 shadow-sm">
                     {material.subject}
                   </span>
                 </>
@@ -111,8 +111,8 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
             onClick={onToggleCollection}
             className={`h-11 px-5 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all active:scale-95 border flex items-center gap-2 group ${
               isCollected 
-                ? 'bg-indigo-600 text-white border-indigo-500 shadow-lg shadow-indigo-100' 
-                : 'bg-white text-slate-600 border-indigo-50 hover:bg-indigo-50 hover:text-indigo-600'
+                ? 'bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-100' 
+                : 'bg-white text-slate-600 border-blue-50 hover:bg-blue-50 hover:text-blue-600'
             }`}
           >
             <span className={`text-lg transition-transform ${isCollected ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`}>
@@ -123,7 +123,7 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
 
           <button 
             onClick={handleGenerateAISummary}
-            className="h-11 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold text-xs uppercase tracking-widest hover:shadow-xl hover:shadow-indigo-200 transition-all active:scale-95 flex items-center gap-2"
+            className="h-11 px-6 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold text-xs uppercase tracking-widest hover:shadow-xl hover:shadow-blue-200 transition-all active:scale-95 flex items-center gap-2"
           >
             <span className="text-base animate-pulse">✨</span>
             AI Insights
@@ -161,7 +161,7 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
               {(material.type === 'text' || (material.type === 'handwritten' && viewMode === 'text')) && material.content && (
                 <div className="animate-slide-up">
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="h-1 w-10 bg-indigo-500 rounded-full" />
+                    <div className="h-1 w-10 bg-blue-500 rounded-full" />
                     <span className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-slate-400 italic">Document Transcript</span>
                   </div>
                   <div className="prose prose-slate max-w-none">
@@ -239,11 +239,11 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
 
             {/* Footer decoration */}
             <div className="mt-12 pt-8 border-t border-indigo-50 flex justify-between items-center opacity-40">
-              <span className="text-[0.6rem] font-black text-indigo-400 uppercase tracking-widest">OceanX Content Hub v4.2</span>
+              <span className="text-[0.6rem] font-black text-blue-400 uppercase tracking-widest">OceanX Content Hub v4.2</span>
               <div className="flex gap-1.5">
-                <div className="h-1.5 w-1.5 rounded-full bg-indigo-200" />
-                <div className="h-1.5 w-1.5 rounded-full bg-indigo-200 animate-pulse" />
-                <div className="h-1.5 w-1.5 rounded-full bg-indigo-200" />
+                <div className="h-1.5 w-1.5 rounded-full bg-blue-200" />
+                <div className="h-1.5 w-1.5 rounded-full bg-blue-200 animate-pulse" />
+                <div className="h-1.5 w-1.5 rounded-full bg-blue-200" />
               </div>
             </div>
           </div>
