@@ -120,13 +120,13 @@ function Sidebar({ onUploadClick }) {
       </aside>
 
       {/* ── Mobile bottom bar ── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around bg-white/90 backdrop-blur-xl border-t border-indigo-50 px-2 py-2 shadow-2xl shadow-indigo-100/50">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around bg-white/90 backdrop-blur-xl border-t border-blue-50 px-2 py-2 shadow-2xl shadow-blue-100/50">
         {navItems.map((item) => (
           item.path === '/upload' ? (
             <button
               key="upload"
               onClick={onUploadClick}
-              className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 text-white shadow-lg shadow-indigo-200 active:scale-90 transition-all"
+              className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 text-white shadow-lg shadow-blue-200 active:scale-90 transition-all"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -139,7 +139,7 @@ function Sidebar({ onUploadClick }) {
               to={item.path}
               className={({ isActive }) =>
                 `flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all ${
-                  isActive ? 'text-indigo-600 bg-indigo-50' : 'text-slate-400'
+                  isActive ? 'text-blue-600 bg-blue-50' : 'text-slate-400'
                 }`
               }
             >

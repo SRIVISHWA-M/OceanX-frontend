@@ -135,7 +135,7 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
         <div className="max-w-5xl mx-auto flex flex-col gap-8">
           
           {/* Main Content Card */}
-          <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] border border-indigo-50 shadow-xl shadow-indigo-50/40 p-6 md:p-10 relative overflow-hidden flex flex-col">
+          <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] border border-blue-50 shadow-xl shadow-blue-50/40 p-6 md:p-10 relative overflow-hidden flex flex-col">
             
             {/* View Switching Header */}
             {material.type === 'handwritten' && material.content && (
@@ -238,7 +238,7 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
             </div>
 
             {/* Footer decoration */}
-            <div className="mt-12 pt-8 border-t border-indigo-50 flex justify-between items-center opacity-40">
+            <div className="mt-12 pt-8 border-t border-blue-50 flex justify-between items-center opacity-40">
               <span className="text-[0.6rem] font-black text-blue-400 uppercase tracking-widest">OceanX Content Hub v4.2</span>
               <div className="flex gap-1.5">
                 <div className="h-1.5 w-1.5 rounded-full bg-blue-200" />

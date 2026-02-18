@@ -393,17 +393,17 @@ function HomePage() {
         {/* Content area — fills remaining height, scrolls internally */}
         <main className="flex-1 min-h-0 px-3 py-3 md:px-5 md:py-4 flex flex-col pb-[72px] md:pb-4">
           {/* Card shell */}
-          <div className={`relative flex-1 min-h-0 rounded-2xl bg-white/85 backdrop-blur-sm border border-white shadow-lg shadow-indigo-100/20 overflow-hidden flex flex-col ${isCenteredView ? 'items-center justify-center' : ''}`}>
+          <div className={`relative flex-1 min-h-0 rounded-2xl bg-white/85 backdrop-blur-sm border border-white shadow-lg shadow-blue-100/20 overflow-hidden flex flex-col ${isCenteredView ? 'items-center justify-center' : ''}`}>
 
-            {/* Animated ocean wave decoration - Fixed for full width */}
-            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-24 opacity-[0.05]" aria-hidden="true">
+            {/* Animated ocean wave decoration - Fixed for full width & Darkened */}
+            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-24 opacity-[0.08]" aria-hidden="true">
               <svg viewBox="0 0 2880 80" preserveAspectRatio="none" className="h-full animate-wave">
-                <path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1440,20 1440,40 C1620,80 1800,0 1980,40 C2160,80 2340,0 2520,40 C2700,80 2880,20 2880,40 L2880,80 L0,80 Z" fill="#2563eb"/>
+                <path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1440,20 1440,40 C1620,80 1800,0 1980,40 C2160,80 2340,0 2520,40 C2700,80 2880,20 2880,40 L2880,80 L0,80 Z" fill="#1e40af"/>
               </svg>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-16 opacity-[0.04]" aria-hidden="true">
+            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-16 opacity-[0.06]" aria-hidden="true">
               <svg viewBox="0 0 2880 60" preserveAspectRatio="none" className="h-full animate-wave-slow">
-                <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 C1680,60 1920,0 2160,30 C2400,60 2640,0 2880,30 L2880,60 L0,60 Z" fill="#0ea5e9"/>
+                <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 C1680,60 1920,0 2160,30 C2400,60 2640,0 2880,30 L2880,60 L0,60 Z" fill="#1e3a8a"/>
               </svg>
             </div>
 

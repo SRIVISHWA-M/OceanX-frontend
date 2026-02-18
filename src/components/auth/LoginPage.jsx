@@ -8,6 +8,7 @@ function LoginPage() {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -58,15 +59,15 @@ function LoginPage() {
           <div className="absolute bottom-[28%] right-[8%] text-5xl opacity-20 animate-float pointer-events-none" style={{ animationDelay: '0.8s' }}>📝</div>
           <div className="absolute top-[30%] left-[18%] text-4xl opacity-15 animate-float pointer-events-none" style={{ animationDelay: '1.2s' }}>✏️</div>
 
-          {/* Ocean wave at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 overflow-hidden h-20 pointer-events-none opacity-20">
+          {/* Ocean wave at bottom - Darkened slight blue */}
+          <div className="absolute bottom-0 left-0 right-0 overflow-hidden h-20 pointer-events-none opacity-30">
             <svg viewBox="0 0 800 80" preserveAspectRatio="none" className="w-[200%] h-full animate-wave">
-              <path d="M0,40 C100,80 200,0 300,40 C400,80 500,0 600,40 C700,80 800,20 800,40 L800,80 L0,80 Z" fill="white"/>
+              <path d="M0,40 C100,80 200,0 300,40 C400,80 500,0 600,40 C700,80 800,20 800,40 L800,80 L0,80 Z" fill="#1e40af"/>
             </svg>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 overflow-hidden h-12 pointer-events-none opacity-10">
+          <div className="absolute bottom-0 left-0 right-0 overflow-hidden h-12 pointer-events-none opacity-20">
             <svg viewBox="0 0 800 60" preserveAspectRatio="none" className="w-[200%] h-full animate-wave-slow">
-              <path d="M0,30 C133,60 266,0 400,30 C533,60 666,0 800,30 L800,60 L0,60 Z" fill="white"/>
+              <path d="M0,30 C133,60 266,0 400,30 C533,60 666,0 800,30 L800,60 L0,60 Z" fill="#1e3a8a"/>
             </svg>
           </div>
 
@@ -154,7 +155,7 @@ function LoginPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Sarah Johnson"
-                    className="w-full px-4 py-3 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-900 font-medium text-sm placeholder-slate-300 focus:outline-none focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-50 transition-all"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-900 font-medium text-sm placeholder-slate-300 focus:outline-none focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-50 transition-all"
                   />
                 </div>
               )}
@@ -167,7 +168,7 @@ function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="sarah@university.edu"
-                  className="w-full px-4 py-3 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-900 font-medium text-sm placeholder-slate-300 focus:outline-none focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-50 transition-all"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-900 font-medium text-sm placeholder-slate-300 focus:outline-none focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-50 transition-all"
                 />
               </div>
 
@@ -175,19 +176,37 @@ function LoginPage() {
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Password</label>
                   {isLogin && (
-                    <button type="button" className="text-xs font-bold text-indigo-500 hover:text-indigo-700 transition-colors">
+                    <button type="button" className="text-xs font-bold text-blue-500 hover:text-blue-700 transition-colors">
                       Forgot?
                     </button>
                   )}
                 </div>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-900 font-medium text-sm placeholder-slate-300 focus:outline-none focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-50 transition-all"
-                />
+                <div className="relative group/pass">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-900 font-medium text-sm placeholder-slate-300 focus:outline-none focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-50 transition-all pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 flex items-center justify-center text-slate-300 hover:text-blue-500 transition-colors rounded-lg hover:bg-white shadow-sm ring-1 ring-transparent hover:ring-slate-100"
+                  >
+                    {showPassword ? (
+                      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
+                    ) : (
+                      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.644C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
 
               <button
