@@ -9,8 +9,9 @@ function QuizView({ material, onExit }) {
   const [answers, setAnswers] = useState({});
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState(null); // { generalFeedback, suggestions }
   const [isFeedbackLoading, setIsFeedbackLoading] = useState(false);
+  const [weakTopics, setWeakTopics] = useState([]);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -54,9 +55,16 @@ function QuizView({ material, onExit }) {
           options: q.options,
           userAnswer: answers[idx],
           correctAnswer: q.answer,
-          isCorrect: isCorrect
+          isCorrect: isCorrect,
+          topic: q.topic || 'General Knowledge'
         };
       });
+
+      // Compute weak topics from incorrect answers
+      const incorrectTopics = [...new Set(
+        detailedAnswers.filter(a => !a.isCorrect).map(a => a.topic)
+      )];
+      setWeakTopics(incorrectTopics);
 
       setScore(totalScore);
       setIsFinished(true);
@@ -72,6 +80,8 @@ function QuizView({ material, onExit }) {
         );
         if (feedbackRes.success) {
           setFeedback(feedbackRes.data.feedback);
+        } else {
+          setFeedback({ generalFeedback: 'Great effort! Keep reviewing your notes.', suggestions: [] });
         }
       } catch (err) {
         console.error('Feedback fetch error:', err);
@@ -148,8 +158,8 @@ function QuizView({ material, onExit }) {
           </div>
         </div>
 
-        {/* AI Suggestions Section */}
-        <div className="w-full max-w-3xl bg-slate-900 rounded-[3rem] p-10 md:p-14 mb-12 relative overflow-hidden group shadow-[0_20px_50px_rgba(15,23,42,0.3)] shrink-0">
+        {/* AI Insights Section */}
+        <div className="w-full max-w-3xl bg-slate-900 rounded-[3rem] p-10 md:p-14 mb-8 relative overflow-hidden group shadow-[0_20px_50px_rgba(15,23,42,0.3)] shrink-0">
           <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full -mr-40 -mt-40 blur-[100px] group-hover:bg-blue-500/20 transition-all duration-700"></div>
           <div className="relative z-10">
             <div className="flex items-center gap-4 mb-8">
@@ -168,11 +178,68 @@ function QuizView({ material, onExit }) {
               </div>
             ) : (
               <p className="text-slate-100 text-lg md:text-xl leading-relaxed font-semibold">
-                {feedback || "Calculating personalized study tips based on your results..."}
+                {feedback?.generalFeedback || feedback || 'Calculating personalized study tips based on your results...'}
               </p>
             )}
           </div>
         </div>
+
+        {/* Topic-Based Suggestions Section */}
+        {!isFeedbackLoading && feedback?.suggestions && feedback.suggestions.length > 0 && (
+          <div className="w-full max-w-3xl mb-12 shrink-0">
+            <div className="flex items-center gap-3 mb-6 px-2">
+              <div className="h-8 w-8 rounded-xl bg-rose-100 flex items-center justify-center">
+                <svg className="h-4 w-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              </div>
+              <h3 className="text-base font-black text-slate-800 uppercase tracking-[0.2em]">Topics to Strengthen</h3>
+            </div>
+            <div className="grid gap-4">
+              {feedback.suggestions.map((s, i) => (
+                <div
+                  key={i}
+                  className="bg-white border-2 border-rose-50 rounded-[2rem] p-6 md:p-8 shadow-sm hover:shadow-md hover:border-rose-100 transition-all group"
+                >
+                  <div className="flex items-start gap-5">
+                    <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-white font-black text-sm shrink-0 shadow-lg shadow-rose-100 group-hover:scale-110 transition-transform">
+                      {i + 1}
+                    </div>
+                    <div className="flex-1">
+                      <span className="block text-[0.65rem] font-black text-rose-500 uppercase tracking-widest mb-1">Weak Topic</span>
+                      <h4 className="text-base md:text-lg font-black text-slate-900 mb-2">{s.topic}</h4>
+                      <p className="text-sm text-slate-500 font-semibold leading-relaxed">{s.tip}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Weak Topics Quick Summary (shown while loading or if no suggestions) */}
+        {!isFeedbackLoading && weakTopics.length > 0 && (!feedback?.suggestions || feedback.suggestions.length === 0) && (
+          <div className="w-full max-w-3xl mb-12 shrink-0">
+            <div className="flex items-center gap-3 mb-5 px-2">
+              <div className="h-8 w-8 rounded-xl bg-amber-100 flex items-center justify-center">
+                <svg className="h-4 w-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.966 8.966 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+              </div>
+              <h3 className="text-base font-black text-slate-800 uppercase tracking-[0.2em]">Topics to Review</h3>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {weakTopics.map((topic, i) => (
+                <span
+                  key={i}
+                  className="px-5 py-2.5 bg-amber-50 border-2 border-amber-100 text-amber-800 font-bold text-sm rounded-2xl"
+                >
+                  📚 {topic}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Detailed Results Review */}
         <div className="w-full max-w-3xl mb-12">
@@ -194,6 +261,13 @@ function QuizView({ material, onExit }) {
                       {isCorrect ? '✓' : '✕'}
                     </div>
                     <div className="flex-1 text-left">
+                      {q.topic && (
+                        <span className={`inline-block text-[0.6rem] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg mb-3 ${
+                          isCorrect ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'
+                        }`}>
+                          {q.topic}
+                        </span>
+                      )}
                       <h4 className="text-xl font-bold text-slate-900 mb-6 leading-relaxed">
                         {q.question}
                       </h4>
