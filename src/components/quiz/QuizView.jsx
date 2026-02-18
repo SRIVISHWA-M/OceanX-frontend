@@ -322,113 +322,191 @@ function QuizView({ material, onExit }) {
 
   const currentQuestion = quiz[currentStep];
   const progress = ((currentStep + 1) / quiz.length) * 100;
+  const optionLetters = ['A', 'B', 'C', 'D'];
+  const optionColors = [
+    { idle: 'from-violet-500 to-purple-600', selected: 'from-violet-500 to-purple-600' },
+    { idle: 'from-blue-500 to-cyan-500',    selected: 'from-blue-500 to-cyan-500' },
+    { idle: 'from-emerald-500 to-teal-500', selected: 'from-emerald-500 to-teal-500' },
+    { idle: 'from-orange-500 to-amber-500', selected: 'from-orange-500 to-amber-500' },
+  ];
 
   return (
-    <div className="w-full h-full flex flex-col animate-in fade-in slide-in-from-bottom-8 duration-500 overflow-hidden">
-      {/* Quiz Header */}
-      <div className="flex flex-row md:items-center justify-between mb-4 md:mb-8 gap-4">
-        <div className="flex flex-col gap-1 md:gap-2">
-          <span className="text-[0.55rem] md:text-[0.7rem] font-black text-blue-500 uppercase tracking-[0.2em] md:tracking-[0.4em]">AI-Generated Mode</span>
-          <h2 className="text-lg md:text-2xl font-black text-slate-900 font-display uppercase tracking-tight truncate max-w-[150px] sm:max-w-none">Knowledge Check</h2>
+    <div className="w-full h-full flex flex-col animate-in fade-in slide-in-from-bottom-6 duration-500 overflow-hidden">
+
+      {/* ── Header ── */}
+      <div className="flex items-center justify-between mb-5 shrink-0">
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[0.6rem] font-black text-blue-500 uppercase tracking-[0.35em]">AI Knowledge Check</span>
+          <h2 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">Question {currentStep + 1}</h2>
         </div>
-        <div className="flex items-center gap-3 md:gap-6">
-          <div className="text-right shrink-0">
-            <span className="block text-[0.5rem] md:text-[0.6rem] font-black text-slate-400 uppercase tracking-widest mb-1">Step</span>
-            <span className="text-base md:text-xl font-black text-slate-900">{currentStep + 1} <span className="text-slate-300">/ {quiz.length}</span></span>
+
+        <div className="flex items-center gap-3">
+          {/* Step dots */}
+          <div className="hidden sm:flex items-center gap-1.5">
+            {quiz.map((_, i) => (
+              <div
+                key={i}
+                className={`rounded-full transition-all duration-500 ${
+                  i === currentStep
+                    ? 'w-5 h-2.5 bg-blue-600'
+                    : i < currentStep
+                    ? 'w-2.5 h-2.5 bg-blue-300'
+                    : 'w-2.5 h-2.5 bg-slate-200'
+                }`}
+              />
+            ))}
           </div>
-          <button 
+
+          {/* Counter pill */}
+          <span className="text-xs font-black text-slate-400 bg-slate-100 px-3 py-1.5 rounded-full">
+            {currentStep + 1}<span className="text-slate-300"> / {quiz.length}</span>
+          </span>
+
+          {/* Exit */}
+          <button
             onClick={onExit}
-            className="group h-10 w-10 md:h-12 md:w-12 flex items-center justify-center rounded-xl md:rounded-2xl bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all active:scale-90 shadow-inner"
+            className="group h-9 w-9 flex items-center justify-center rounded-xl bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all active:scale-90"
           >
-            <svg className="h-5 w-5 md:h-6 md:w-6 transition-transform group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+            <svg className="h-4 w-4 transition-transform group-hover:rotate-90 duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
         </div>
       </div>
 
-      {/* Progress Bar Container */}
-      <div className="mb-6 md:mb-10 px-1">
-        <div className="w-full h-2 md:h-2.5 bg-slate-100 rounded-full relative overflow-hidden ring-4 ring-slate-50/50">
-          <div 
-            className="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-700 ease-out rounded-full shadow-lg"
+      {/* ── Progress bar ── */}
+      <div className="mb-6 shrink-0">
+        <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 rounded-full transition-all duration-700 ease-out"
             style={{ width: `${progress}%` }}
-          ></div>
+          />
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col md:flex-row gap-6 md:gap-10 items-start overflow-y-auto no-scrollbar pb-6 md:pb-4">
-        {/* Question Card */}
-        <div className="w-full md:flex-[1.2] bg-white rounded-3xl md:rounded-[3.5rem] border-2 border-slate-50 p-6 md:p-10 shadow-xl md:shadow-2xl shadow-slate-100/50 relative overflow-hidden flex flex-col justify-center min-h-[180px] md:min-h-[360px] shrink-0">
-          <div className="absolute top-0 right-0 w-32 h-32 md:w-40 md:h-40 bg-blue-50/30 rounded-full -mr-16 -mt-16 md:-mr-20 md:-mt-20 blur-2xl md:blur-3xl pointer-events-none"></div>
-          <span className="text-[0.6rem] md:text-[0.7rem] font-black text-blue-600 bg-blue-50 px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg md:rounded-xl uppercase tracking-widest mb-4 md:mb-8 inline-block w-fit">
-            Check {currentStep + 1}
-          </span>
-          <h3 className="text-xl md:text-3xl font-black text-slate-900 md:leading-[1.3] font-display">
-            {currentQuestion?.question}
-          </h3>
-          <div className="hidden md:flex mt-12 items-center gap-4 text-slate-300">
-            <div className="h-px flex-1 bg-slate-100"></div>
-            <span className="text-[0.6rem] font-black uppercase tracking-[0.3em]">Select one answer</span>
-            <div className="h-px flex-1 bg-slate-100"></div>
+      {/* ── Body: Question + Options ── */}
+      <div className="flex-1 flex flex-col gap-5 overflow-y-auto no-scrollbar pb-4">
+
+        {/* Question card */}
+        <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-7 md:p-10 overflow-hidden shrink-0 shadow-2xl shadow-slate-900/20">
+          {/* Decorative blobs */}
+          <div className="absolute -top-10 -right-10 w-48 h-48 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-violet-600/20 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10">
+            {currentQuestion?.topic && (
+              <span className="inline-flex items-center gap-1.5 text-[0.6rem] font-black uppercase tracking-widest text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full mb-5">
+                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
+                </svg>
+                {currentQuestion.topic}
+              </span>
+            )}
+            <p className="text-white text-xl md:text-2xl font-bold leading-relaxed">
+              {currentQuestion?.question}
+            </p>
+            <div className="flex items-center gap-3 mt-6 text-slate-500">
+              <div className="h-px flex-1 bg-slate-700" />
+              <span className="text-[0.6rem] font-black uppercase tracking-[0.3em]">Choose the best answer</span>
+              <div className="h-px flex-1 bg-slate-700" />
+            </div>
           </div>
         </div>
 
-        {/* Options */}
-        <div className="w-full md:flex-1 flex flex-col gap-2 md:gap-2.5 shrink-0">
-          {currentQuestion?.options.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => setAnswers(prev => ({ ...prev, [currentStep]: index }))}
-              className={`group flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-[1.5rem] border-2 transition-all duration-300 text-left ${
-                answers[currentStep] === index 
-                  ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-100 shadow-md md:shadow-lg md:scale-[1.01]' 
-                  : 'border-slate-50 bg-white hover:border-blue-200 hover:shadow-sm md:hover:shadow-md'
-              }`}
-            >
-              <div className={`h-7 w-7 md:h-8 md:w-8 flex-shrink-0 rounded-lg md:rounded-xl flex items-center justify-center font-black text-[0.6rem] md:text-xs transition-all ${
-                answers[currentStep] === index ? 'bg-blue-600 text-white rotate-6' : 'bg-slate-50 text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-500'
-              }`}>
-                {String.fromCharCode(65 + index)}
-              </div>
-              <span className={`font-bold text-xs md:text-sm leading-snug ${answers[currentStep] === index ? 'text-blue-900' : 'text-slate-600'}`}>
-                {option}
-              </span>
-            </button>
-          ))}
+        {/* Answer options */}
+        <div className="grid grid-cols-1 gap-3 shrink-0">
+          {currentQuestion?.options.map((option, index) => {
+            const isSelected = answers[currentStep] === index;
+            const color = optionColors[index % optionColors.length];
+            return (
+              <button
+                key={index}
+                onClick={() => setAnswers(prev => ({ ...prev, [currentStep]: index }))}
+                className={`group relative flex items-center gap-4 p-4 md:p-5 rounded-2xl border-2 text-left transition-all duration-300 ${
+                  isSelected
+                    ? 'border-transparent bg-white shadow-xl shadow-slate-200/60 scale-[1.01]'
+                    : 'border-slate-100 bg-white hover:border-slate-200 hover:shadow-md'
+                }`}
+              >
+                {/* Left accent bar */}
+                {isSelected && (
+                  <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-full bg-gradient-to-b ${color.selected}`} />
+                )}
+
+                {/* Letter badge */}
+                <div className={`h-10 w-10 flex-shrink-0 rounded-xl flex items-center justify-center font-black text-sm transition-all duration-300 ${
+                  isSelected
+                    ? `bg-gradient-to-br ${color.selected} text-white shadow-lg`
+                    : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200 group-hover:text-slate-600'
+                }`}>
+                  {optionLetters[index]}
+                </div>
+
+                {/* Option text */}
+                <span className={`flex-1 font-semibold text-sm md:text-base leading-snug transition-colors duration-200 ${
+                  isSelected ? 'text-slate-900' : 'text-slate-600 group-hover:text-slate-800'
+                }`}>
+                  {option}
+                </span>
+
+                {/* Selected checkmark */}
+                {isSelected && (
+                  <div className={`h-6 w-6 flex-shrink-0 rounded-full bg-gradient-to-br ${color.selected} flex items-center justify-center shadow-md`}>
+                    <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Footer Navigation */}
-      <div className="flex gap-3 md:gap-4 py-4 mt-auto border-t border-slate-50 bg-white/80 backdrop-blur-sm z-10">
+      {/* ── Footer Navigation ── */}
+      <div className="flex gap-3 pt-4 mt-auto border-t border-slate-100 shrink-0">
         <button
           onClick={handlePrevious}
           disabled={currentStep === 0}
-          className={`flex-1 py-3.5 md:py-4 rounded-xl md:rounded-[1.5rem] font-black text-sm md:text-base transition-all flex items-center justify-center gap-2 ${
+          className={`flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-black text-sm transition-all ${
             currentStep === 0
-              ? 'bg-slate-50 text-slate-200 cursor-not-allowed border border-slate-50'
-              : 'bg-white text-slate-600 border-2 border-slate-100 hover:border-blue-200 hover:bg-slate-50 active:scale-95'
+              ? 'bg-slate-50 text-slate-300 cursor-not-allowed'
+              : 'bg-white border-2 border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50 active:scale-95'
           }`}
         >
-          <svg className="h-4 w-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+          <svg className="h-4 w-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
             <path d="M13 7l5 5m0 0l-5 5m5-5H6" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Prev
+          Back
         </button>
 
         <button
           onClick={handleNext}
           disabled={answers[currentStep] === undefined}
-          className={`flex-[1.5] py-3.5 md:py-4 rounded-xl md:rounded-[1.5rem] font-black text-sm md:text-base transition-all shadow-lg flex items-center justify-center gap-2 ${
+          className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-black text-sm transition-all ${
             answers[currentStep] === undefined
-              ? 'bg-slate-100 text-slate-300 cursor-not-allowed border border-slate-50'
-              : 'bg-blue-600 text-white hover:bg-slate-900 active:scale-95 shadow-blue-100'
+              ? 'bg-slate-100 text-slate-300 cursor-not-allowed'
+              : currentStep < quiz.length - 1
+              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200 hover:shadow-xl hover:shadow-blue-300 hover:scale-[1.01] active:scale-95'
+              : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-200 hover:shadow-xl hover:shadow-emerald-300 hover:scale-[1.01] active:scale-95'
           }`}
         >
-          {currentStep < quiz.length - 1 ? 'Next' : 'Finish'}
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-            <path d="M13 7l5 5m0 0l-5 5m5-5H6" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          {currentStep < quiz.length - 1 ? (
+            <>
+              Next Question
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path d="M13 7l5 5m0 0l-5 5m5-5H6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </>
+          ) : (
+            <>
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Finish Quiz
+            </>
+          )}
         </button>
       </div>
     </div>
