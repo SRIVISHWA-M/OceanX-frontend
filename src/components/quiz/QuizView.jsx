@@ -382,171 +382,176 @@ function QuizView({ material, onExit }) {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col overflow-y-auto no-scrollbar pr-1 pb-4">
-
-      {/* ── Top bar ── */}
-      <div className="flex items-center gap-3 mb-6 shrink-0">
-        {/* Circular progress */}
-        <div className="relative h-11 w-11 shrink-0">
-          <svg className="h-11 w-11 -rotate-90" viewBox="0 0 44 44">
-            <circle cx="22" cy="22" r="18" fill="none" stroke="#f1f5f9" strokeWidth="4" />
-            <circle
-              cx="22" cy="22" r="18" fill="none"
-              stroke="#3b82f6" strokeWidth="4"
-              strokeLinecap="round"
-              strokeDasharray={`${2 * Math.PI * 18}`}
-              strokeDashoffset={`${2 * Math.PI * 18 * (1 - (currentStep + 1) / totalQ)}`}
-              style={{ transition: 'stroke-dashoffset 0.6s ease' }}
-            />
-          </svg>
-          <span className="absolute inset-0 flex items-center justify-center text-[0.6rem] font-black text-slate-700">
-            {currentStep + 1}/{totalQ}
-          </span>
-        </div>
-
-        {/* Segment track */}
-        <div className="flex-1 flex gap-1">
-          {quiz.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1 flex-1 rounded-full transition-all duration-500 ${
-                i < currentStep ? 'bg-blue-500' : i === currentStep ? 'bg-blue-300' : 'bg-slate-100'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Regenerate Button */}
-        <button
-          onClick={handleAnotherQuiz}
-          title="Generate New Quiz"
-          className="group h-9 px-3 flex items-center justify-center gap-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all active:scale-95 shrink-0"
-        >
-          <svg className="h-4 w-4 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-          </svg>
-          <span className="text-[0.6rem] font-black uppercase tracking-wider hidden sm:inline">New Quiz</span>
-        </button>
-
-        {/* Exit */}
-        <button
-          onClick={onExit}
-          className="group h-9 w-9 flex items-center justify-center rounded-xl bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all active:scale-90 shrink-0"
-        >
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-      </div>
-
-      {/* ── Question panel ── */}
-      <div className="relative flex flex-col justify-center bg-slate-50 rounded-2xl px-6 py-6 mb-6 shrink-0 overflow-hidden">
-        {/* Watermark number */}
-        <span
-          className="absolute right-3 bottom-0 font-black text-slate-100 select-none pointer-events-none opacity-50"
-          style={{ fontSize: '4.5rem', lineHeight: 1 }}
-        >
-          {String(currentStep + 1).padStart(2, '0')}
-        </span>
-
-        {currentQuestion?.topic && (
-          <span className="inline-flex items-center gap-1 text-[0.6rem] font-black uppercase tracking-widest text-blue-500 mb-2 w-fit">
-            <svg className="h-2.5 w-2.5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-            </svg>
-            {currentQuestion.topic}
-          </span>
-        )}
-
-        <p className="relative z-10 text-base md:text-xl font-bold text-slate-800 leading-relaxed pr-16">
-          {currentQuestion?.question}
-        </p>
-      </div>
-
-      {/* ── Responsive Answer grid ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-        {currentQuestion?.options.map((option, index) => {
-          const isSelected = answers[currentStep] === index;
-          const acc = tileAccents[index % tileAccents.length];
-          return (
-            <button
-              key={index}
-              onClick={() => setAnswers(prev => ({ ...prev, [currentStep]: index }))}
-              className={`group relative flex flex-col justify-between p-5 rounded-2xl border-2 text-left transition-all duration-200 min-h-[100px] ${
-                isSelected
-                  ? `${acc.light} ${acc.border} ring-2 ${acc.ring} shadow-lg`
-                  : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-md active:scale-[0.98]'
-              }`}
-            >
-              <div className="flex items-center justify-between mb-3">
-                {/* Letter badge */}
-                <div className={`h-8 w-8 rounded-xl flex items-center justify-center font-black text-sm transition-all duration-200 shrink-0 ${
-                  isSelected ? `${acc.bg} text-white shadow-md` : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200'
-                }`}>
-                  {String.fromCharCode(65 + index)}
-                </div>
-
-                {/* Tick */}
-                {isSelected && (
-                  <div className={`h-6 w-6 rounded-full ${acc.bg} flex items-center justify-center shadow`}>
-                    <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                )}
-              </div>
-
-              {/* Option text */}
-              <span className={`text-sm md:text-base font-semibold leading-relaxed ${
-                isSelected ? acc.text : 'text-slate-600 group-hover:text-slate-800'
-              }`}>
-                {option}
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full max-w-2xl bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_30px_60px_rgba(0,0,0,0.05)] flex flex-col overflow-hidden max-h-full">
+        
+        {/* ── Top bar (Fixed) ── */}
+        <div className="px-8 pt-8 pb-4 bg-white z-20">
+          <div className="flex items-center gap-3 mb-6">
+            {/* Circular progress */}
+            <div className="relative h-11 w-11 shrink-0">
+              <svg className="h-11 w-11 -rotate-90" viewBox="0 0 44 44">
+                <circle cx="22" cy="22" r="18" fill="none" stroke="#f1f5f9" strokeWidth="4" />
+                <circle
+                  cx="22" cy="22" r="18" fill="none"
+                  stroke="#3b82f6" strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * 18}`}
+                  strokeDashoffset={`${2 * Math.PI * 18 * (1 - (currentStep + 1) / totalQ)}`}
+                  style={{ transition: 'stroke-dashoffset 0.6s ease' }}
+                />
+              </svg>
+              <span className="absolute inset-0 flex items-center justify-center text-[0.6rem] font-black text-slate-700">
+                {currentStep + 1}/{totalQ}
               </span>
+            </div>
+
+            {/* Segment track */}
+            <div className="flex-1 flex gap-1">
+              {quiz.map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-1 flex-1 rounded-full transition-all duration-500 ${
+                    i < currentStep ? 'bg-blue-500' : i === currentStep ? 'bg-blue-300' : 'bg-slate-100'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Regenerate Button */}
+            <button
+              onClick={handleAnotherQuiz}
+              title="Generate New Quiz"
+              className="group h-9 px-3 flex items-center justify-center gap-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all active:scale-95 shrink-0"
+            >
+              <svg className="h-4 w-4 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+              </svg>
+              <span className="text-[0.6rem] font-black uppercase tracking-wider hidden sm:inline">New Quiz</span>
             </button>
-          );
-        })}
-      </div>
 
-      {/* ── Bottom navigation ── */}
-      <div className="flex items-center gap-3 pt-4 mt-auto border-t border-slate-100 shrink-0">
-        {currentStep > 0 && (
-          <button
-            onClick={handlePrevious}
-            className="h-12 w-12 flex items-center justify-center rounded-xl border-2 border-slate-200 text-slate-500 hover:bg-slate-50 hover:border-slate-300 transition-all active:scale-90 shrink-0"
-          >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-              <path d="M15 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        )}
+            {/* Exit */}
+            <button
+              onClick={onExit}
+              className="group h-9 w-9 flex items-center justify-center rounded-xl bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all active:scale-90 shrink-0"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
 
-        <button
-          onClick={handleNext}
-          disabled={!answered}
-          className={`flex-1 h-12 flex items-center justify-center gap-2 rounded-xl font-black text-base transition-all ${
-            !answered
-              ? 'bg-slate-100 text-slate-300 cursor-not-allowed'
-              : currentStep < totalQ - 1
-              ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-100 active:scale-95'
-              : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-lg shadow-emerald-100 active:scale-95'
-          }`}
-        >
-          {currentStep < totalQ - 1 ? (
-            <>
-              Next
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
+        {/* ── Scrollable Content Area ── */}
+        <div className="flex-1 overflow-y-auto px-8 pb-4 no-scrollbar">
+          {/* Question panel */}
+          <div className="relative flex flex-col justify-center bg-slate-50/80 rounded-3xl px-8 py-8 mb-8 border border-slate-100/50">
+            {/* Watermark number */}
+            <span
+              className="absolute right-4 bottom-0 font-black text-slate-200/40 select-none pointer-events-none"
+              style={{ fontSize: '5rem', lineHeight: 1 }}
+            >
+              {String(currentStep + 1).padStart(2, '0')}
+            </span>
+
+            {currentQuestion?.topic && (
+              <span className="inline-flex items-center gap-1.5 text-[0.7rem] font-black uppercase tracking-widest text-blue-500 mb-3 w-fit bg-blue-50 px-3 py-1 rounded-full">
+                <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                </svg>
+                {currentQuestion.topic}
+              </span>
+            )}
+
+            <p className="relative z-10 text-xl md:text-2xl font-black text-slate-800 leading-tight pr-12">
+              {currentQuestion?.question}
+            </p>
+          </div>
+
+          {/* Answer grid */}
+          <div className="grid grid-cols-1 gap-3.5 mb-2">
+            {currentQuestion?.options.map((option, index) => {
+              const isSelected = answers[currentStep] === index;
+              const acc = tileAccents[index % tileAccents.length];
+              return (
+                <button
+                  key={index}
+                  onClick={() => setAnswers(prev => ({ ...prev, [currentStep]: index }))}
+                  className={`group relative flex items-center gap-5 p-5 rounded-[1.5rem] border-2 text-left transition-all duration-300 ${
+                    isSelected
+                      ? `${acc.light} ${acc.border} ring-4 ring-${acc.ring.split('-')[1]}-100 shadow-md transform scale-[1.01]`
+                      : 'bg-white border-slate-100 hover:border-blue-200 hover:bg-slate-50/50 active:scale-[0.99]'
+                  }`}
+                >
+                  {/* Letter badge */}
+                  <div className={`h-10 w-10 rounded-xl flex items-center justify-center font-black text-base transition-all duration-300 shrink-0 ${
+                    isSelected ? `${acc.bg} text-white shadow-lg` : 'bg-slate-100 text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-500'
+                  }`}>
+                    {String.fromCharCode(65 + index)}
+                  </div>
+
+                  {/* Option text */}
+                  <span className={`flex-1 text-base md:text-lg font-bold leading-snug ${
+                    isSelected ? acc.text : 'text-slate-600 group-hover:text-slate-900'
+                  }`}>
+                    {option}
+                  </span>
+
+                  {/* Tick */}
+                  {isSelected && (
+                    <div className={`h-7 w-7 rounded-full ${acc.bg} flex items-center justify-center shadow-lg animate-in zoom-in duration-300`}>
+                      <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Bottom navigation (Fixed) ── */}
+        <div className="px-8 py-8 bg-white border-t border-slate-50 flex items-center gap-4">
+          {currentStep > 0 && (
+            <button
+              onClick={handlePrevious}
+              className="h-14 w-14 flex items-center justify-center rounded-2xl border-2 border-slate-100 text-slate-400 hover:bg-slate-50 hover:border-slate-200 hover:text-slate-600 transition-all active:scale-90 shrink-0"
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <path d="M15 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </>
-          ) : (
-            <>
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-              Submit Quiz
-            </>
+            </button>
           )}
-        </button>
+
+          <button
+            onClick={handleNext}
+            disabled={!answered}
+            className={`flex-1 h-14 flex items-center justify-center gap-3 rounded-2xl font-black text-lg transition-all duration-300 ${
+              !answered
+                ? 'bg-slate-100 text-slate-300 cursor-not-allowed grayscale'
+                : currentStep < totalQ - 1
+                ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-xl shadow-blue-200 hover:shadow-blue-300 active:scale-[0.97]'
+                : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-xl shadow-emerald-200 hover:shadow-emerald-300 active:scale-[0.97]'
+            }`}
+          >
+            {currentStep < totalQ - 1 ? (
+              <>
+                Continue
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                  <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </>
+            ) : (
+              <>
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Complete Quiz
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
