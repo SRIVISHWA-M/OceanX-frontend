@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import noteService from '../../services/noteService';
 
 function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleCollection }) {
+  const navigate = useNavigate();
   const [showInsights, setShowInsights] = useState(false);
   const [aiSummary, setAiSummary] = useState('');
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
@@ -326,17 +328,29 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
                     </div>
                   </div>
 
-                  <button 
-                    onClick={onStartLearning}
-                    className="w-full py-4.5 rounded-[1.5rem] bg-indigo-600 text-white font-black text-md hover:bg-slate-900 shadow-xl shadow-indigo-100/50 transition-all duration-300 active:scale-95 group/btn overflow-hidden mt-auto"
-                  >
-                    <span className="flex items-center justify-center gap-3">
-                      Start Quiz
-                      <svg className="h-5 w-5 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                        <path d="M13 7l5 5m0 0l-5 5m5-5H6" strokeLinecap="round" strokeLinejoin="round"/>
+                  <div className="w-full flex flex-col gap-3 mt-auto">
+                    <button 
+                      onClick={onStartLearning}
+                      className="w-full py-4.5 rounded-[1.5rem] bg-indigo-600 text-white font-black text-md hover:bg-slate-900 shadow-xl shadow-indigo-100/50 transition-all duration-300 active:scale-95 group/btn overflow-hidden"
+                    >
+                      <span className="flex items-center justify-center gap-3">
+                        Start Quiz
+                        <svg className="h-5 w-5 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                          <path d="M13 7l5 5m0 0l-5 5m5-5H6" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </span>
+                    </button>
+
+                    <button 
+                      onClick={() => navigate(`/quiz/${material.id}?refresh=true`)}
+                      className="w-full py-3.5 rounded-[1.25rem] bg-white text-indigo-600 font-black text-xs uppercase tracking-widest border-2 border-indigo-50 hover:bg-indigo-50 hover:border-indigo-100 transition-all active:scale-95 flex items-center justify-center gap-2 group/refresh"
+                    >
+                      <svg className="h-4 w-4 group-hover/refresh:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                       </svg>
-                    </span>
-                  </button>
+                      Generate New Quiz
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

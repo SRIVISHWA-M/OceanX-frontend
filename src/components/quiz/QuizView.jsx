@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import noteService from '../../services/noteService';
 
 function QuizView({ material, onExit }) {
+  const [searchParams] = useSearchParams();
+  const shouldRefresh = searchParams.get('refresh') === 'true';
   const [quiz, setQuiz] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -17,7 +20,7 @@ function QuizView({ material, onExit }) {
     const fetchQuiz = async () => {
       try {
         setIsLoading(true);
-        const response = await noteService.generateAIQuiz(material.id || material._id);
+        const response = await noteService.generateAIQuiz(material.id || material._id, shouldRefresh);
         if (response.success && response.data.quiz) {
           setQuiz(response.data.quiz);
         } else {
@@ -412,6 +415,18 @@ function QuizView({ material, onExit }) {
             />
           ))}
         </div>
+
+        {/* Regenerate Button */}
+        <button
+          onClick={handleAnotherQuiz}
+          title="Generate New Quiz"
+          className="group h-9 px-3 flex items-center justify-center gap-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all active:scale-95 shrink-0"
+        >
+          <svg className="h-4 w-4 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          <span className="text-[0.6rem] font-black uppercase tracking-wider hidden sm:inline">New Quiz</span>
+        </button>
 
         {/* Exit */}
         <button
