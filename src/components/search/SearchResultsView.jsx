@@ -18,7 +18,7 @@ function SearchResultsView({ materials, searchQuery, onSelectMaterial, onClearSe
   const displayMaterials = materials || [];
 
   return (
-    <div className="w-full h-full flex flex-col animate-slide-up">
+    <div className="w-full flex-1 flex flex-col min-h-0 animate-slide-up">
       {/* Header */}
       <div className="flex items-center justify-between mb-5 shrink-0">
         <div>

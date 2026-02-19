@@ -70,7 +70,7 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
   if (!material) return null;
 
   return (
-    <div className="w-full h-full flex flex-col animate-fade-scale">
+    <div className="w-full flex-1 flex flex-col min-h-0 animate-fade-scale">
       {/* Premium Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 pb-6 border-b border-blue-50/50">
         <div className="flex items-center gap-5">
@@ -131,7 +131,7 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto no-scrollbar -mx-2 px-2 pb-32">
+      <div className="flex-1 overflow-y-auto no-scrollbar -mx-2 px-2 pb-48">
         <div className="max-w-5xl mx-auto flex flex-col gap-8">
           
           {/* Main Content Card */}
@@ -328,7 +328,7 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
 
                   <button 
                     onClick={onStartLearning}
-                    className="w-full py-4.5 rounded-[1.5rem] bg-indigo-600 text-white font-black text-md hover:bg-slate-900 shadow-xl shadow-indigo-100 transition-all duration-300 active:scale-95 group/btn overflow-hidden"
+                    className="w-full py-4.5 rounded-[1.5rem] bg-indigo-600 text-white font-black text-md hover:bg-slate-900 shadow-xl shadow-indigo-100/50 transition-all duration-300 active:scale-95 group/btn overflow-hidden mt-auto"
                   >
                     <span className="flex items-center justify-center gap-3">
                       Start Quiz

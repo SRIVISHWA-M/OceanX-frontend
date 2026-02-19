@@ -310,7 +310,7 @@ function QuizView({ material, onExit }) {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full flex-1 flex flex-col min-h-0">
 
       {/* ── Top bar ── */}
       <div className="flex items-center gap-3 mb-4 shrink-0">

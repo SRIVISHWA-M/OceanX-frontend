@@ -391,9 +391,9 @@ function HomePage() {
         />
 
         {/* Content area — fills remaining height, scrolls internally */}
-        <main className="flex-1 min-h-0 px-3 py-3 md:px-5 md:py-4 flex flex-col pb-[72px] md:pb-4">
+        <main className="flex-1 min-h-0 px-3 py-3 md:px-6 md:py-6 flex flex-col pb-[80px] md:pb-8">
           {/* Card shell */}
-          <div className={`relative flex-1 min-h-0 rounded-2xl bg-white/85 backdrop-blur-sm border border-white shadow-lg shadow-blue-100/20 overflow-hidden flex flex-col ${isCenteredView ? 'items-center justify-center' : ''}`}>
+          <div className={`relative flex-1 flex flex-col min-h-0 rounded-[2rem] bg-white/85 backdrop-blur-sm border border-white shadow-2xl shadow-blue-100/20 overflow-hidden ${isCenteredView ? 'items-center justify-center' : ''}`}>
 
             {/* Animated ocean wave decoration - Fixed for full width & Vibrant Blue */}
             <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-24 opacity-[0.05] z-0" aria-hidden="true">
@@ -412,7 +412,7 @@ function HomePage() {
             <div className="absolute bottom-0 left-0 w-56 h-56 bg-cyan-100/20 rounded-full blur-3xl -ml-28 -mb-28 pointer-events-none" />
 
             {/* Scrollable inner content */}
-            <div className={`relative z-10 flex-1 min-h-0 w-full flex flex-col ${isCenteredView ? 'items-center justify-center p-5 md:p-8' : 'p-3 md:p-6'}`}>
+            <div className={`relative z-10 flex-1 min-h-0 w-full flex flex-col ${isCenteredView ? 'items-center justify-center p-5 md:p-8' : 'px-4 py-4 md:px-10 md:pt-8 md:pb-16'}`}>
               {renderContent()}
             </div>
 
