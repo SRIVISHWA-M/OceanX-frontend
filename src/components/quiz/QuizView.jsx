@@ -379,10 +379,10 @@ function QuizView({ material, onExit }) {
   ];
 
   return (
-    <div className="w-full flex-1 flex flex-col min-h-0 overflow-y-auto no-scrollbar pr-1">
+    <div className="w-full h-full flex flex-col overflow-y-auto no-scrollbar pr-1 pb-4">
 
       {/* ── Top bar ── */}
-      <div className="flex items-center gap-3 mb-4 shrink-0">
+      <div className="flex items-center gap-3 mb-6 shrink-0">
         {/* Circular progress */}
         <div className="relative h-11 w-11 shrink-0">
           <svg className="h-11 w-11 -rotate-90" viewBox="0 0 44 44">
@@ -425,11 +425,11 @@ function QuizView({ material, onExit }) {
       </div>
 
       {/* ── Question panel ── */}
-      <div className="relative flex flex-col justify-center bg-slate-50 rounded-2xl px-6 py-5 mb-4 shrink-0 overflow-hidden min-h-[110px]">
+      <div className="relative flex flex-col justify-center bg-slate-50 rounded-2xl px-6 py-6 mb-6 shrink-0 overflow-hidden">
         {/* Watermark number */}
         <span
-          className="absolute right-3 bottom-0 font-black text-slate-100 select-none pointer-events-none"
-          style={{ fontSize: '5.5rem', lineHeight: 1 }}
+          className="absolute right-3 bottom-0 font-black text-slate-100 select-none pointer-events-none opacity-50"
+          style={{ fontSize: '4.5rem', lineHeight: 1 }}
         >
           {String(currentStep + 1).padStart(2, '0')}
         </span>
@@ -443,13 +443,13 @@ function QuizView({ material, onExit }) {
           </span>
         )}
 
-        <p className="relative z-10 text-base md:text-lg font-bold text-slate-800 leading-snug pr-20">
+        <p className="relative z-10 text-base md:text-xl font-bold text-slate-800 leading-relaxed pr-16">
           {currentQuestion?.question}
         </p>
       </div>
 
       {/* ── Responsive Answer grid ── */}
-      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 min-h-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         {currentQuestion?.options.map((option, index) => {
           const isSelected = answers[currentStep] === index;
           const acc = tileAccents[index % tileAccents.length];
@@ -457,13 +457,13 @@ function QuizView({ material, onExit }) {
             <button
               key={index}
               onClick={() => setAnswers(prev => ({ ...prev, [currentStep]: index }))}
-              className={`group relative flex flex-col justify-between p-4 rounded-2xl border-2 text-left transition-all duration-200 overflow-hidden ${
+              className={`group relative flex flex-col justify-between p-5 rounded-2xl border-2 text-left transition-all duration-200 min-h-[100px] ${
                 isSelected
-                  ? `${acc.light} ${acc.border} ring-2 ${acc.ring} scale-[0.98] shadow-lg`
-                  : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-md active:scale-[0.97]'
+                  ? `${acc.light} ${acc.border} ring-2 ${acc.ring} shadow-lg`
+                  : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-md active:scale-[0.98]'
               }`}
             >
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-3">
                 {/* Letter badge */}
                 <div className={`h-8 w-8 rounded-xl flex items-center justify-center font-black text-sm transition-all duration-200 shrink-0 ${
                   isSelected ? `${acc.bg} text-white shadow-md` : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200'
@@ -482,7 +482,7 @@ function QuizView({ material, onExit }) {
               </div>
 
               {/* Option text */}
-              <span className={`text-sm font-semibold leading-relaxed ${
+              <span className={`text-sm md:text-base font-semibold leading-relaxed ${
                 isSelected ? acc.text : 'text-slate-600 group-hover:text-slate-800'
               }`}>
                 {option}
@@ -493,13 +493,13 @@ function QuizView({ material, onExit }) {
       </div>
 
       {/* ── Bottom navigation ── */}
-      <div className="flex items-center gap-3 pt-4 mt-3 border-t border-slate-100 shrink-0">
+      <div className="flex items-center gap-3 pt-4 mt-auto border-t border-slate-100 shrink-0">
         {currentStep > 0 && (
           <button
             onClick={handlePrevious}
-            className="h-11 w-11 flex items-center justify-center rounded-xl border-2 border-slate-200 text-slate-500 hover:bg-slate-50 hover:border-slate-300 transition-all active:scale-90 shrink-0"
+            className="h-12 w-12 flex items-center justify-center rounded-xl border-2 border-slate-200 text-slate-500 hover:bg-slate-50 hover:border-slate-300 transition-all active:scale-90 shrink-0"
           >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
@@ -508,7 +508,7 @@ function QuizView({ material, onExit }) {
         <button
           onClick={handleNext}
           disabled={!answered}
-          className={`flex-1 h-11 flex items-center justify-center gap-2 rounded-xl font-black text-sm transition-all ${
+          className={`flex-1 h-12 flex items-center justify-center gap-2 rounded-xl font-black text-base transition-all ${
             !answered
               ? 'bg-slate-100 text-slate-300 cursor-not-allowed'
               : currentStep < totalQ - 1
@@ -519,13 +519,13 @@ function QuizView({ material, onExit }) {
           {currentStep < totalQ - 1 ? (
             <>
               Next
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </>
           ) : (
             <>
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
               Submit Quiz
