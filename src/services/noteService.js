@@ -77,10 +77,11 @@ export const generateAISummary = async (id) => {
 /**
  * Generate AI quiz for a note
  * @param {string} id - Note ID
+ * @param {boolean} refresh - Force generate new questions
  */
-export const generateAIQuiz = async (id) => {
+export const generateAIQuiz = async (id, refresh = false) => {
     try {
-        const response = await api.post(`/notes/${id}/quiz`, {});
+        const response = await api.post(`/notes/${id}/quiz${refresh ? '?refresh=true' : ''}`, {});
         return response.data;
     } catch (error) {
         console.error('Failed to generate AI quiz:', error);

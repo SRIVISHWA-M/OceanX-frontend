@@ -93,6 +93,45 @@ function QuizView({ material, onExit }) {
     }
   };
 
+  const handleTryAgain = () => {
+    setCurrentStep(0);
+    setAnswers({});
+    setScore(0);
+    setIsFinished(false);
+    setFeedback(null);
+    setWeakTopics([]);
+  };
+
+  const handleAnotherQuiz = async () => {
+    try {
+      setIsLoading(true);
+      setError('');
+      setIsFinished(false);
+      setCurrentStep(0);
+      setAnswers({});
+      setScore(0);
+      setFeedback(null);
+      setWeakTopics([]);
+
+      const response = await noteService.generateAIQuiz(material.id || material._id, true);
+      if (response.success && response.data.quiz) {
+        setQuiz(response.data.quiz);
+      } else {
+        throw new Error('Failed to load new quiz data');
+      }
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || err.message || '';
+      if (errorMsg.includes('Quota reached') || errorMsg.includes('rested')) {
+        setError('AI is taking a quick break (Quota reached). Please try again in 24 hours!');
+      } else {
+        setError(errorMsg || 'Error generating new quiz');
+      }
+      console.error('Quiz fetch error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // ── Loading state ──
   if (isLoading) {
     return (
@@ -113,12 +152,20 @@ function QuizView({ material, onExit }) {
         <div className="text-6xl mb-6">⚠️</div>
         <h2 className="text-2xl font-black text-slate-900 mb-4">Quiz Generation Failed</h2>
         <p className="text-red-500 font-bold mb-10 max-w-md">{error}</p>
-        <button
-          onClick={onExit}
-          className="px-10 py-4 bg-slate-900 text-white font-black rounded-2xl hover:bg-blue-600 transition-all"
-        >
-          Return to Material
-        </button>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <button
+            onClick={handleAnotherQuiz}
+            className="px-8 py-3 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
+          >
+            Retry Generation
+          </button>
+          <button
+            onClick={onExit}
+            className="px-8 py-3 bg-slate-900 text-white font-black rounded-2xl hover:bg-slate-700 transition-all"
+          >
+            Return to Material
+          </button>
+        </div>
       </div>
     );
   }
@@ -178,10 +225,32 @@ function QuizView({ material, onExit }) {
               </div>
             ) : (
               <p className="text-slate-100 text-lg md:text-xl leading-relaxed font-semibold">
-                {feedback?.generalFeedback || feedback || 'Calculating personalized study tips based on your results...'}
+                {feedback?.generalFeedback || (typeof feedback === 'string' ? feedback : 'Calculating personalized study tips based on your results...')}
               </p>
             )}
           </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="w-full max-w-3xl flex flex-col md:flex-row gap-4 mb-12 shrink-0">
+          <button
+            onClick={handleTryAgain}
+            className="flex-1 px-8 py-5 bg-blue-50 text-blue-600 font-black rounded-3xl border-2 border-blue-100 hover:bg-blue-100 transition-all flex items-center justify-center gap-3 group"
+          >
+            <svg className="h-5 w-5 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            Try Same Quiz
+          </button>
+          <button
+             onClick={handleAnotherQuiz}
+             className="flex-1 px-8 py-5 bg-slate-900 text-white font-black rounded-3xl hover:bg-slate-800 transition-all flex items-center justify-center gap-3 group shadow-xl shadow-slate-200"
+          >
+            <svg className="h-5 w-5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+            </svg>
+            Generate New Quiz
+          </button>
         </div>
 
         {/* Topic-Based Suggestions */}
@@ -289,7 +358,7 @@ function QuizView({ material, onExit }) {
 
         <button
           onClick={onExit}
-          className="w-full sm:w-auto px-16 md:px-24 py-6 md:py-8 bg-blue-600 text-white font-black text-xl md:text-2xl rounded-3xl md:rounded-[2rem] shadow-2xl shadow-blue-200 hover:bg-slate-900 hover:scale-105 active:scale-95 transition-all mb-12 shrink-0"
+          className="w-full sm:w-auto px-16 md:px-24 py-6 md:py-8 bg-slate-900 text-white font-black text-xl md:text-2xl rounded-3xl md:rounded-[2rem] shadow-2xl shadow-blue-200 hover:bg-blue-600 hover:scale-105 active:scale-95 transition-all mb-12 shrink-0"
         >
           Return to Material
         </button>
