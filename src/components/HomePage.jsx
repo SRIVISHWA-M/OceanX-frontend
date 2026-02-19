@@ -396,12 +396,12 @@ function HomePage() {
           <div className={`relative flex-1 min-h-0 rounded-2xl bg-white/85 backdrop-blur-sm border border-white shadow-lg shadow-blue-100/20 overflow-hidden flex flex-col ${isCenteredView ? 'items-center justify-center' : ''}`}>
 
             {/* Animated ocean wave decoration - Fixed for full width & Vibrant Blue */}
-            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-24 opacity-[0.05]" aria-hidden="true">
+            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-24 opacity-[0.05] z-0" aria-hidden="true">
               <svg viewBox="0 0 2880 80" preserveAspectRatio="none" className="h-full animate-wave">
                 <path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1440,20 1440,40 C1620,80 1800,0 1980,40 C2160,80 2340,0 2520,40 C2700,80 2880,20 2880,40 L2880,80 L0,80 Z" fill="#3b82f6"/>
               </svg>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-16 opacity-[0.04]" aria-hidden="true">
+            <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden h-16 opacity-[0.04] z-0" aria-hidden="true">
               <svg viewBox="0 0 2880 60" preserveAspectRatio="none" className="h-full animate-wave-slow">
                 <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 C1680,60 1920,0 2160,30 C2400,60 2640,0 2880,30 L2880,60 L0,60 Z" fill="#0ea5e9"/>
               </svg>
@@ -412,7 +412,7 @@ function HomePage() {
             <div className="absolute bottom-0 left-0 w-56 h-56 bg-cyan-100/20 rounded-full blur-3xl -ml-28 -mb-28 pointer-events-none" />
 
             {/* Scrollable inner content */}
-            <div className={`relative z-10 flex-1 min-h-0 w-full ${isCenteredView ? 'flex items-center justify-center p-5 md:p-8' : 'overflow-y-auto p-5 md:p-8'}`}>
+            <div className={`relative z-10 flex-1 min-h-0 w-full flex flex-col ${isCenteredView ? 'items-center justify-center p-5 md:p-8' : 'p-3 md:p-6'}`}>
               {renderContent()}
             </div>
 

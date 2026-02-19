@@ -131,7 +131,7 @@ function PreviewView({ material, onBack, onStartLearning, isCollected, onToggleC
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto no-scrollbar -mx-2 px-2 pb-10">
+      <div className="flex-1 overflow-y-auto no-scrollbar -mx-2 px-2 pb-32">
         <div className="max-w-5xl mx-auto flex flex-col gap-8">
           
           {/* Main Content Card */}

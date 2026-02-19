@@ -61,7 +61,7 @@ function SearchResultsView({ materials, searchQuery, onSelectMaterial, onClearSe
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-2.5 pb-4">
+          <div className="grid grid-cols-1 gap-2.5 pb-20">
             {displayMaterials.map((item) => {
               const tc = typeConfig[item.type] || typeConfig.text;
               const icon = typeIcons[item.type] || '📄';
