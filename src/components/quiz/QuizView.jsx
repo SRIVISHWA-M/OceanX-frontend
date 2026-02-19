@@ -379,7 +379,7 @@ function QuizView({ material, onExit }) {
   ];
 
   return (
-    <div className="w-full flex-1 flex flex-col min-h-0">
+    <div className="w-full flex-1 flex flex-col min-h-0 overflow-y-auto no-scrollbar pr-1">
 
       {/* ── Top bar ── */}
       <div className="flex items-center gap-3 mb-4 shrink-0">
@@ -448,8 +448,8 @@ function QuizView({ material, onExit }) {
         </p>
       </div>
 
-      {/* ── 2×2 Answer grid ── */}
-      <div className="flex-1 grid grid-cols-2 gap-3 min-h-0">
+      {/* ── Responsive Answer grid ── */}
+      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 min-h-0">
         {currentQuestion?.options.map((option, index) => {
           const isSelected = answers[currentStep] === index;
           const acc = tileAccents[index % tileAccents.length];
@@ -463,28 +463,30 @@ function QuizView({ material, onExit }) {
                   : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-md active:scale-[0.97]'
               }`}
             >
-              {/* Letter badge */}
-              <div className={`h-8 w-8 rounded-xl flex items-center justify-center font-black text-sm mb-3 transition-all duration-200 shrink-0 ${
-                isSelected ? `${acc.bg} text-white shadow-md` : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200'
-              }`}>
-                {String.fromCharCode(65 + index)}
+              <div className="flex items-center justify-between mb-2">
+                {/* Letter badge */}
+                <div className={`h-8 w-8 rounded-xl flex items-center justify-center font-black text-sm transition-all duration-200 shrink-0 ${
+                  isSelected ? `${acc.bg} text-white shadow-md` : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200'
+                }`}>
+                  {String.fromCharCode(65 + index)}
+                </div>
+
+                {/* Tick */}
+                {isSelected && (
+                  <div className={`h-6 w-6 rounded-full ${acc.bg} flex items-center justify-center shadow`}>
+                    <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                )}
               </div>
 
               {/* Option text */}
-              <span className={`text-sm font-semibold leading-snug ${
+              <span className={`text-sm font-semibold leading-relaxed ${
                 isSelected ? acc.text : 'text-slate-600 group-hover:text-slate-800'
               }`}>
                 {option}
               </span>
-
-              {/* Tick */}
-              {isSelected && (
-                <div className={`absolute top-3 right-3 h-5 w-5 rounded-full ${acc.bg} flex items-center justify-center shadow`}>
-                  <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-              )}
             </button>
           );
         })}
